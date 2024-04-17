@@ -21,9 +21,14 @@
                     <td>{{$usuarios->cpf}}</td>
                     <td>{{$usuarios->datanasc}}</td>
                     <td>
-                        <a href="">Editar</a>
+                        <a href="{{url("usuario/$usuarios->id/edit")}}">Editar</a>
                         <br>
-                        <a href="">Apagar</a>
+                        <form method="POST" action="{{url("usuario/$usuarios->id")}}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o usuario {{$usuarios->nome}} ?')"> Excluir</button>
+
+                        </form>
                     </td>
                 </tr>
             @endforeach

@@ -45,24 +45,33 @@ class UsuarioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $usuario = Usuario::find($id);
+        return view('usuario.edit',compact('usuario'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,$id)
     {
-        //
+        $usuario = Usuario::find($id);
+        $usuario->update($request->all());
+        return redirect()->route('usuario.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $delete = Usuario::FindOrFail($id);
+        if (request()->has('_token')){
+            $delete->delete();
+            return redirect()->route('usuario.index');
+        } else {
+            return redirect()->route('usuario.index');
+        }
     }
 }

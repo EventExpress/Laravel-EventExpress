@@ -20,12 +20,12 @@
         </div>
         <div>
             <div>
-                <label for="CPF">
+                <label for="datanasc">
                     Data de Nascimento
                 </label>
                 <input type="date" name="datanasc" id="datanasc">
             </div>
-            <label for="nome">
+            <label for="cpf">
                 CPF
             </label>
             <input type="text" name="cpf" id="cpf" maxlength="14">

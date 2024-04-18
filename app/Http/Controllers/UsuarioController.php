@@ -29,6 +29,13 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nome' => 'required',
+            'telefone'=> 'required',
+            'email'=>'required',
+            'datanasc'=>'required',
+            'cpf'=>'required']);
+
         if(Usuario::query()->create($request->all())){
             return response()->redirectTo('/usuario');
         }
@@ -37,9 +44,11 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $search = $request->input('search');
+        $results = Usuario::where('nome','like',"%$search%")->get();
+        return view('usuario.search', compact('results'));
     }
 
     /**
@@ -74,4 +83,5 @@ class UsuarioController extends Controller
             return redirect()->route('usuario.index');
         }
     }
+
 }

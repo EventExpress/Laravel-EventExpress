@@ -3,6 +3,11 @@
     <div>
         <a href="/usuario/create">Cadastrar Novo usuario</a>
     </div>
+    <br>
+    <form action="{{ url('usuario/show') }}" method="GET">
+        <input type="text" name="search" placeholder="Procurar usuário">
+        <button type="submit">Search</button>
+    </form>
     <table border="1">
         <thead>
         <th>ID</th>

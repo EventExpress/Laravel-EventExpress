@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Nome;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 
@@ -36,9 +37,21 @@ class UsuarioController extends Controller
             'datanasc'=>'required',
             'cpf'=>'required']);
 
-        if(Usuario::query()->create($request->all())){
-            return response()->redirectTo('/usuario');
-        }
+        $usuario = new Usuario();
+        $usuario->telefone = $request->telefone;
+        $usuario->email = $request->email;
+        $usuario->datanasc = $request->datanasc;
+        $usuario->cpf = $request->cpf;
+        $usuario->nome = $request->nome; // Certifique-se de que existe um campo 'nome' na tabela 'usuarios'
+        $usuario->save();
+
+
+        $nome = new Nome();
+        $nome->nome = $request->nome;
+        $nome->usuario_id = $usuario->id; // Supondo que a coluna de chave estrangeira seja usuario_id
+        $nome->save();
+
+        return redirect('/usuario');
     }
 
     /**
@@ -67,6 +80,8 @@ class UsuarioController extends Controller
     {
         $usuario = Usuario::find($id);
         $usuario->update($request->all());
+        $nome = Nome::find($id);
+        $nome->update(['nome' => $request->input('nome')]);
         return redirect()->route('usuario.index');
     }
 
@@ -76,8 +91,10 @@ class UsuarioController extends Controller
     public function destroy($id)
     {
         $delete = Usuario::FindOrFail($id);
+
         if (request()->has('_token')){
             $delete->delete();
+            $delete->nome()->delete();
             return redirect()->route('usuario.index');
         } else {
             return redirect()->route('usuario.index');

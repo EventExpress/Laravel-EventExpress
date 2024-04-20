@@ -9,4 +9,8 @@ class Usuario extends Model
 {
     use HasFactory;
     protected $fillable=['nome','telefone','email','datanasc','cpf'];
+
+    public function nome() {
+        return $this->hasMany(Nome::class);
+    }
 }

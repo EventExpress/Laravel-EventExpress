@@ -17,7 +17,11 @@ class UsuarioFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nome' =>fake()->name,
+            'telefone'=>fake()->numerify('(##)####-####'),
+            'email' =>fake()->email,
+            'datanasc'=>fake()->dateTimeBetween('-80 years', '-18 years')->format('Y-m-d'),
+            'cpf'=>fake()->numerify('###.###.###-##')
         ];
     }
 }

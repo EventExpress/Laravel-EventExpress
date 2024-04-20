@@ -69,20 +69,30 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $usuario = Usuario::find($id);
+        $usuario = Usuario::with('nome')->find($id);
         return view('usuario.edit',compact('usuario'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $usuario = Usuario::find($id);
+
+        if (!$usuario) {
+            return redirect()->route('usuario.index')->with('error', 'Usuário não encontrado.');
+        }
+        $nome = Nome::where('usuario_id', $id);
         $usuario->update($request->all());
-        $nome = Nome::find($id);
-        $nome->update(['nome' => $request->input('nome')]);
-        return redirect()->route('usuario.index');
+
+        if ($nome) {
+            $nome->update(['nome' => $request->input('nome')]);
+        } else {
+            return redirect()->route('usuario.index')->with('error', 'Nome não encontrado.');
+        }
+
+        return redirect()->route('usuario.index')->with('success', 'Usuário e nome atualizados com sucesso.');
     }
 
     /**

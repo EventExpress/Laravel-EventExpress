@@ -2,26 +2,28 @@
 
 namespace Database\Factories;
 
+use App\Models\Nome;
+use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Usuario>
  */
 class UsuarioFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Usuario::class;
     public function definition(): array
     {
         return [
-            'nome' =>fake()->name,
-            'telefone'=>fake()->numerify('(##)####-####'),
-            'email' =>fake()->email,
-            'datanasc'=>fake()->dateTimeBetween('-80 years', '-18 years')->format('Y-m-d'),
-            'cpf'=>fake()->numerify('###.###.###-##')
+            'nome' => $this->faker->name(),
+            'telefone' => $this->faker->numerify('(##)####-####'),
+            'email' => $this->faker->email,
+            'datanasc' => $this->faker->dateTimeBetween('-80 years', '-18 years')->format('Y-m-d'),
+            'tipousu' => $this->faker->randomElement(['Cliente', 'Locador']),
+            'cpf' => $this->faker->numerify('###.###.###-##'),
+            'cnpj' => $this->faker->numerify('##.###.###/####-##'),
+            'endereco' => $this->faker->address,
         ];
     }
 }

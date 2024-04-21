@@ -14,6 +14,8 @@
         <th>Nome</th>
         <th>Telefone</th>
         <th>CPF</th>
+        <th>Tipo Usuario</th>
+        <th>Endereço</th>
         <th>Data Nascimento</th>
         <th>Ações</th>
         </thead>
@@ -24,6 +26,8 @@
                     <td>{{$usuarios->nome}}</td>
                     <td>{{$usuarios->telefone}}</td>
                     <td>{{$usuarios->cpf}}</td>
+                    <td>{{$usuarios->tipousu}}</td>
+                    <td>{{$usuarios->endereco}}</td>
                     <td>{{$usuarios->datanasc}}</td>
                     <td>
                         <a href="{{url("usuario/$usuarios->id/edit")}}">Editar</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Locador;
+use App\Models\Nome;
 use Illuminate\Http\Request;
 
 class LocadorController extends Controller
@@ -21,7 +22,7 @@ class LocadorController extends Controller
      */
     public function create()
     {
-        //
+        return view ('locador.create');
     }
 
     /**
@@ -29,7 +30,32 @@ class LocadorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nome' => 'required',
+            'telefone'=> 'required',
+            'email'=>'required',
+            'cpf'=>'required',
+            'cnpj'=>'required',
+            'endereco'=>'required']);
+
+        $locador = new Locador();
+        $locador =
+        $locador->telefone = $request->telefone;
+        $locador->email = $request->email;
+        $locador->cpf = $request->cpf;
+        $locador->cnpj = $request->cnpj;
+        $locador->endereco = $request->endereco;
+        $locador->save();
+
+
+        $nome = new Nome();
+        $nome->nome = $request->nome;
+        $nome ->usuario_id = 'null';
+        $nome->locador_id = $locador->id;
+        $nome->save();
+
+        return redirect('/locador');
+
     }
 
     /**

@@ -33,22 +33,28 @@ class UsuarioController extends Controller
         $request->validate([
             'nome' => 'required',
             'telefone'=> 'required',
-            'email'=>'required',
             'datanasc'=>'required',
-            'cpf'=>'required']);
+            'email'=>'required',
+            'tipousu'=>'required',
+            'cpf'=>'required',
+            'cnpj'=> $request->tipousu === 'Locador' ? 'required' : 'nullable', //validação de acordo com o cadastro do usuario
+            'endereco'=>'required']);
 
         $usuario = new Usuario();
         $usuario->telefone = $request->telefone;
-        $usuario->email = $request->email;
         $usuario->datanasc = $request->datanasc;
+        $usuario->email = $request->email;
+        $usuario->tipousu = $request->tipousu;
         $usuario->cpf = $request->cpf;
-        $usuario->nome = $request->nome; // Certifique-se de que existe um campo 'nome' na tabela 'usuarios'
+        $usuario->cnpj = $request->cnpj;
+        $usuario->nome = $request->nome;
+        $usuario->endereco = $request->endereco;
         $usuario->save();
 
 
         $nome = new Nome();
         $nome->nome = $request->nome;
-        $nome->usuario_id = $usuario->id; // Supondo que a coluna de chave estrangeira seja usuario_id
+        $nome->usuario_id = $usuario->id;
         $nome->save();
 
         return redirect('/usuario');
@@ -81,18 +87,17 @@ class UsuarioController extends Controller
         $usuario = Usuario::find($id);
 
         if (!$usuario) {
-            return redirect()->route('usuario.index')->with('error', 'Usuário não encontrado.');
+            return redirect()->route('usuario.index')->with('Usuário não encontrado.');
         }
         $nome = Nome::where('usuario_id', $id);
         $usuario->update($request->all());
-
         if ($nome) {
             $nome->update(['nome' => $request->input('nome')]);
         } else {
-            return redirect()->route('usuario.index')->with('error', 'Nome não encontrado.');
+            return redirect()->route('usuario.index')->with('Nome não encontrado.');
         }
 
-        return redirect()->route('usuario.index')->with('success', 'Usuário e nome atualizados com sucesso.');
+        return redirect()->route('usuario.index')->with('Usuário e nome atualizados com sucesso.');
     }
 
     /**

@@ -9,4 +9,5 @@ Route::get('/', function () {
 });
 
 Route::resource('/usuario', UsuarioController::class);
-Route::resource('/locador',LocadorController::class);
+
+

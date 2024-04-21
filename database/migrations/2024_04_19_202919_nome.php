@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Locador;
 use App\Models\Usuario;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,7 +18,6 @@ return new class extends Migration
            $table->foreignIdFor(Usuario::class);
            $table->string('nome',120);
            $table->timestamps();
-
         });
     }
 

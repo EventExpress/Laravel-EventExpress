@@ -12,11 +12,8 @@ class NomeFactory extends Factory{
 
     public function definition(): array
     {
-        $usuario = Usuario::factory()->create();
-
         return [
-            'usuario_id' => $usuario->id,
-            'nome' => $usuario->nome,
+            'nome' => $this->faker->name(),
         ];
     }
 }

@@ -5,7 +5,7 @@
         <div>
             <label>
                 <span>Nome:</span>
-                <input type="text" name="nome" id="nome" value="{{$usuario->nome}}" required>
+                <input type="text" name="nome" id="nome" value="{{$usuario->nome->nome}}" required>
             </label>
         </div>
         <div>

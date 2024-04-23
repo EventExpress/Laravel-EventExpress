@@ -23,7 +23,7 @@
             @foreach($usuario as $usuarios)
                 <tr>
                     <td>{{$usuarios->id}}</td>
-                    <td>{{$usuarios->nome}}</td>
+                    <td>{{$usuarios->nome->nome}}</td>
                     <td>{{$usuarios->telefone}}</td>
                     <td>{{$usuarios->cpf}}</td>
                     <td>{{$usuarios->tipousu}}</td>
@@ -35,7 +35,7 @@
                         <form method="POST" action="{{url("usuario/$usuarios->id")}}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o usuario {{$usuarios->nome}} ?')"> Excluir</button>
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o usuario {{$usuarios->nome->nome}} ?')"> Excluir</button>
 
                         </form>
                     </td>

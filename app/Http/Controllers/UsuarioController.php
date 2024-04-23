@@ -31,6 +31,7 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+
             'nome' => 'required',
             'telefone'=> 'required',
             'datanasc'=>'required',
@@ -40,22 +41,20 @@ class UsuarioController extends Controller
             'cnpj'=> $request->tipousu === 'Locador' ? 'required' : 'nullable', //validação de acordo com o cadastro do usuario
             'endereco'=>'required']);
 
+        $nome = new Nome();
+        $nome->nome = $request->nome;
+        $nome->save();
+
         $usuario = new Usuario();
+        $usuario->nome_id = $nome->id;
         $usuario->telefone = $request->telefone;
         $usuario->datanasc = $request->datanasc;
         $usuario->email = $request->email;
         $usuario->tipousu = $request->tipousu;
         $usuario->cpf = $request->cpf;
         $usuario->cnpj = $request->cnpj;
-        $usuario->nome = $request->nome;
         $usuario->endereco = $request->endereco;
         $usuario->save();
-
-
-        $nome = new Nome();
-        $nome->nome = $request->nome;
-        $nome->usuario_id = $usuario->id;
-        $nome->save();
 
         return redirect('/usuario');
     }
@@ -66,9 +65,17 @@ class UsuarioController extends Controller
     public function show(Request $request)
     {
         $search = $request->input('search');
-        $results = Usuario::where('nome','like',"%$search%")->get();
+
+        $results = Usuario::whereHas('nome', function ($query) use ($search) {
+            $query->where('nome', 'like', "%$search%");
+        })->orWhere('telefone', 'like', "%$search%")
+            ->orWhere('cpf', 'like', "%$search%")
+            ->orWhere('tipousu', 'like', "%$search%")
+            ->get();
+
         return view('usuario.search', compact('results'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -89,7 +96,7 @@ class UsuarioController extends Controller
         if (!$usuario) {
             return redirect()->route('usuario.index')->with('Usuário não encontrado.');
         }
-        $nome = Nome::where('usuario_id', $id);
+        $nome = Nome::find($usuario->nome_id);
         $usuario->update($request->all());
         if ($nome) {
             $nome->update(['nome' => $request->input('nome')]);

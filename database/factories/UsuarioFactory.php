@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\DB;
  */
 class UsuarioFactory extends Factory
 {
+
     protected $model = Usuario::class;
     public function definition(): array
     {
+        $nome = Nome::factory()->create();
         return [
-            'nome' => $this->faker->name(),
+            'nome_id' => $nome->id,
             'telefone' => $this->faker->numerify('(##)####-####'),
             'email' => $this->faker->email,
             'datanasc' => $this->faker->dateTimeBetween('-80 years', '-18 years')->format('Y-m-d'),

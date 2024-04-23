@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\LocadorController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 

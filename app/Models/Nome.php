@@ -12,6 +12,6 @@ class Nome extends Model
     protected $fillable = ['nome'];
 
     public function usuario() {
-        return $this->belongsTo(Usuario::class);
+        return $this->Hasmany(Usuario::class);
     }
 }

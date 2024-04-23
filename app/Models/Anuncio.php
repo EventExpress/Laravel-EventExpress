@@ -10,7 +10,7 @@ class Anuncio extends Model
     use HasFactory;
     protected $fillable = 
     [
-        'nome',
+        'titulo',
         'categoria',
         'endereco',
         'capacidade',
@@ -20,5 +20,24 @@ class Anuncio extends Model
         'agenda',
         'status'
     ];
+
+    public function endereco() {
+        return $this->belongsTo(Endereco::class);
+    }
+    public function status() {
+        return $this->belongsTo(Status::class);
+    }
+    
+    public function categoria() {
+        return $this->belongsTo(Categoria::class);
+    }
+
+    public function usuario() {
+        return $this->hasMany(Usuario::class);
+    }
+    
+    public function nome() {
+        return $this->hasMany(Nome::class);
+    }
 
 }

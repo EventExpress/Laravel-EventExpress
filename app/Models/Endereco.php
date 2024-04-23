@@ -17,5 +17,11 @@ class Endereco extends Model
         'bairro'
     ];
 
-    
+    public function usuario() {
+        return $this->hasMany(Usuario::class);
+    }
+
+    public function anuncio() {
+        return $this->hasMany(Anuncio::class);
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Usuario;
 use Illuminate\Database\Seeder;
+use App\Models\Categoria;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,11 +18,19 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+<<<<<<< HEAD
         //User::factory()->create([
         //    'name' => 'Test User',
          //   'email' => 'test@example.com',
         //]);
 
         Usuario::factory()->create();
+=======
+    /**User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]); */    
+        Categoria::factory()->createOne();
+>>>>>>> CategoriaNish
     }
 }

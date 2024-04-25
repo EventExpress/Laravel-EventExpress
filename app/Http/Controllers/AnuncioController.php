@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Endereco;
 use App\Models\Anuncio;
 use Illuminate\Http\Request;
 
@@ -38,11 +39,18 @@ class AnuncioController extends Controller
             'status'=>'required'
         ]);
 
+        $endereco = new Endereco();
+        $endereco->cidade = $request->cidade;
+        $endereco->cep = $request->cep;
+        $endereco->numero = $request->numero;
+        $endereco->bairro = $request->bairro;
+        $endereco->save();       
+
 
         $anuncio = new Anuncio();
         $anuncio->titulo = $request->titulo;
         $anuncio->categoria = $request->categoria;
-        $anuncio->endereco = $request->endereco;
+        $anuncio->endreco_id = $endereco->id;
         $anuncio->capacidade = $request->capacidade;
         $anuncio->descricao = $request->descricao;
         $anuncio->usuario = $request->usuario;

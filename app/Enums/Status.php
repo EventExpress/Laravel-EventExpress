@@ -4,8 +4,10 @@ namespace App\Enums;
 
 enum categoria : string
 {
-    const PENDENTE = 'pendente';
-    const PROCESSANDO = 'processando';
-    const PAGO = 'pago';
-    const CANCELADO = 'cancelado';
+    const PENDENTE = 'Pendente';
+    const PROCESSANDO = 'Processando';
+    const PAGO = 'Pago';
+    const CANCELADO = 'Cancelado';
+    const RESERVADO = 'Reservado';
+    const DISPONÍVEL = 'Disponivel';
 }

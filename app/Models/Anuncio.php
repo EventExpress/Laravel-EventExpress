@@ -12,7 +12,7 @@ class Anuncio extends Model
     [
         'titulo',
         'categoria',
-        'endereco',
+        'endereco_id',
         'capacidade',
         'descricao',
         'locador',

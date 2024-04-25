@@ -1,8 +1,8 @@
 <div>
-    <form action="/endereco" method="POST">
+    <form action="/anuncio" method="POST">
         <div>
             <label for="nome">
-                titulo:
+                Titulo:
             </label>
             <input type="text" name="titulo" id="titulo" required>
         </div>
@@ -13,10 +13,28 @@
             <input type="text" name="categoria" id="categoria" required>
         </div>
         <div>
-            <label for="endereco">
-                Endereço:
+            <label for="cidade">
+                Cidade:
             </label>
-            <input type="text" name="endereco" id="endereco" required>
+            <input type="text" name="cidade" id="cidade" required>
+        </div>
+        <div>
+            <label for="cep">
+                Cep:
+            </label>
+            <input type="number" name="cep" id="cep" required>
+        </div>
+        <div>
+            <label for="numero">
+                Numero:
+            </label>
+            <input type="number" name="numero" id="numero" required>
+        </div>
+        <div>
+            <label for="bairro">
+                Bairro:
+            </label>
+            <input type="text" name="bairro" id="bairro" required>
         </div>
         <div>
             <label for="capacidade">
@@ -46,7 +64,7 @@
             <label for="agenda">
                 Agenda:
             </label>
-            <input type="text" name="agenda" id="agenda" required>
+            <input type="date" name="agenda" id="agenda" required>
         </div>
         <div>
             <label for="status">
@@ -54,10 +72,12 @@
             </label>
             </label>
             <select name="status" id="status" required>
-                <option value="pago">Pago</option>
-                <option value="processando">Processando</option>
-                <option value="cancelado">Cancelado</option>
-                <option value="pendente">Pendente</option>
+                <option value="Pago">Pago</option>
+                <option value="Processando">Processando</option>
+                <option value="Cancelado">Cancelado</option>
+                <option value="Pendente">Pendente</option>
+                <option value="Disponivel">Disponível</option>
+                <option value="Reservado">Reservado</option>
             </select>
         </div>
         <div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anuncio;
 use Illuminate\Http\Request;
 
 class AnuncioController extends Controller
@@ -12,7 +13,7 @@ class AnuncioController extends Controller
     public function index()
     {
         $anuncio = Anuncio::all();
-        return view('anuncio.index',['anuncio'=>$anuncio]);   
+        return view('anuncio.index',['anuncio'=> $anuncio]);   
     }
 
     /**
@@ -20,12 +21,9 @@ class AnuncioController extends Controller
      */
     public function create()
     {
-        return view ('anuncio.create');
+        return view ('anuncio.createanuncio');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -53,7 +51,7 @@ class AnuncioController extends Controller
         $anuncio->status = $request->status;
         $anuncio->save();
 
-        return redirect('/anuncio');
+        return redirect('/anuncio.index');
     }
 
     /**
@@ -61,7 +59,7 @@ class AnuncioController extends Controller
      */
     public function show(AnuncioController $anuncio)
     {
-        //
+
     }
 
     /**

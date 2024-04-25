@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('nome', 80);
             $table->string('reservas', 50);
             $table->string('contrato', 20);
+            $table->timestamps();
         });
     }
 

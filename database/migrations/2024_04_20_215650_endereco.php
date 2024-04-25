@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('cep',  8);
             $table->string('numero', 12);
             $table->string('bairro', 50);
+            $table->timestamps();
         });
     }
 

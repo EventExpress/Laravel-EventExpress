@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('valor', 10);
             $table->date('agenda');
             $table->string('status');
+            $table->timestamps();
         });
     }
 

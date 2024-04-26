@@ -7,10 +7,8 @@
             <input type="text" name="nome" id="nome" required>
         </div>
         <div>
-            <label for="telefone">
-                Telefone:
-            </label>
-            <input type="tel" name="telefone" id="telefone" maxlength="12" required>
+            <label for="telefone">Telefone:</label>
+            <input type="tel" id="telefone" name="telefone" maxlength="12" required>
         </div>
         <div>
             <label for="email">
@@ -47,10 +45,28 @@
             <input type="text" name="cnpj" id="cnpj" maxlength="14">
         </div>
         <div>
-            <label for="endereco">
-                Endereço:
+            <label for="cidade">
+                Cidade:
             </label>
-            <input type="text" name="endereco" id="endereco" required>
+            <input type="text" name="cidade" id="cidade" required>
+        </div>
+        <div>
+            <label for="cep">
+                CEP:
+            </label>
+            <input type="text" name="cep" id="cep" required>
+        </div>
+        <div>
+            <label for="numero">
+                Número:
+            </label>
+            <input type="number" name="numero" id="numero" required>
+        </div>
+        <div>
+            <label for="bairro">
+                Bairro:
+            </label>
+            <input type="text" name="bairro" id="bairro" required>
         </div>
         <div>
             <input type="submit" value="Enviar">

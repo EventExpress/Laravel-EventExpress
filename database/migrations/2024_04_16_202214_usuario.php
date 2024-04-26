@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('tipousu',50);
             $table->string('cpf',11);
             $table->string('cnpj',14)->nullable();
-            $table->string('endereco',120);
+            $table->foreignId('endereco_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
         //obs: devido a classe nome ser um fk do id usuario achei (Guilherme) melhor unificar o cadastro dos 2 diferenciando atravez do tipo de usuario.

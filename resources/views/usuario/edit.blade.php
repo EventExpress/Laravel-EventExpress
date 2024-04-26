@@ -50,8 +50,26 @@
         </div>
         <div>
             <label>
-                <span>Endereço:</span>
-                <input type="text" name="endereco" id="endereco" value="{{$usuario->endereco}}" required>
+                <span>Cidade:</span>
+                <input type="text" name="cidade" id="cidade" value="{{$usuario->endereco->cidade}}" required>
+            </label>
+        </div>
+        <div>
+            <label>
+                <span>CEP:</span>
+                <input type="text" name="cep" id="cep" value="{{$usuario->endereco->cep}}" required>
+            </label>
+        </div>
+        <div>
+            <label>
+                <span>Número:</span>
+                <input type="number" name="numero" id="numero" value="{{$usuario->endereco->numero}}" required>
+            </label>
+        </div>
+        <div>
+            <label>
+                <span>Bairro:</span>
+                <input type="text" name="bairro" id="bairro" value="{{$usuario->endereco->bairro}}" required>
             </label>
         </div>
         <div>
@@ -60,6 +78,7 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
     </form>
 </div>
+
 
 <script>
     function OcultarCnpj(tipoUsu) {

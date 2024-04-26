@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Endereco;
 use App\Models\Nome;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -39,11 +40,23 @@ class UsuarioController extends Controller
             'tipousu'=>'required',
             'cpf'=>'required',
             'cnpj'=> $request->tipousu === 'Locador' ? 'required' : 'nullable', //validação de acordo com o cadastro do usuario
-            'endereco'=>'required']);
+            'cidade'=>'required',
+            'cep'=>'required',
+            'numero'=>'required',
+            'cidade'=>'required',
+            'bairro'=>'required'
+        ]);
 
         $nome = new Nome();
         $nome->nome = $request->nome;
         $nome->save();
+
+        $endereco = new Endereco();
+        $endereco->cidade = $request->cidade;
+        $endereco->cep = $request->cep;
+        $endereco->numero = $request->numero;
+        $endereco->bairro = $request->bairro;
+        $endereco->save();
 
         $usuario = new Usuario();
         $usuario->nome_id = $nome->id;
@@ -53,7 +66,7 @@ class UsuarioController extends Controller
         $usuario->tipousu = $request->tipousu;
         $usuario->cpf = $request->cpf;
         $usuario->cnpj = $request->cnpj;
-        $usuario->endereco = $request->endereco;
+        $usuario->endereco_id = $endereco->id;
         $usuario->save();
 
         return redirect('/usuario');
@@ -103,6 +116,12 @@ class UsuarioController extends Controller
         } else {
             return redirect()->route('usuario.index')->with('Nome não encontrado.');
         }
+        $endereco = Endereco::find($usuario->endereco_id);
+        $usuario->update($request->all());
+        $endereco->update(['cidade' => $request->input('cidade')]);
+        $endereco->update(['cep' => $request->input('cep')]);
+        $endereco->update(['numero' => $request->input('numero')]);
+        $endereco->update(['bairro' => $request->input('bairro')]);
 
         return redirect()->route('usuario.index')->with('Usuário e nome atualizados com sucesso.');
     }
@@ -117,6 +136,8 @@ class UsuarioController extends Controller
         if (request()->has('_token')){
             $delete->delete();
             $delete->nome()->delete();
+            $delete->endereco()->delete();
+
             return redirect()->route('usuario.index');
         } else {
             return redirect()->route('usuario.index');

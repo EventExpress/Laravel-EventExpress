@@ -1,6 +1,7 @@
 <div>
     <h1>Lista de anuncios</h1>
     <div>
+        <a href="/">Home</a><br><br>
         <a href="/anuncio/create">Cadastrar Anuncio</a>
     </div>
     <br>

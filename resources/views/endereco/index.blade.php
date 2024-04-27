@@ -1,6 +1,7 @@
 <div>
     <h1>Lista de enderecos</h1>
     <div>
+        <a href="/">Home</a><br><br>
         <a href="/endereco/create">Cadastrar Endereço</a>
     </div>
     <br>

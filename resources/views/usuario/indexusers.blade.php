@@ -1,6 +1,7 @@
 <div>
     <h1>Lista de Usuarios</h1>
     <div>
+        <a href="/">Home</a><br><br>
         <a href="/usuario/create">Cadastrar Novo usuario</a>
     </div>
     <br>

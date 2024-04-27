@@ -43,7 +43,6 @@ class UsuarioController extends Controller
             'cidade'=>'required',
             'cep'=>'required',
             'numero'=>'required',
-            'cidade'=>'required',
             'bairro'=>'required'
         ]);
 

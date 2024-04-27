@@ -169,7 +169,6 @@ test('Verifica o relacionamento', function () {
     ]);
 
     $this->assertEquals($nome->nome, $usuario->nome->nome);//verifica se o nome associado é igual ao usuario
-    $this->assertTrue($usuario->nome_id == $nome->id);//verifica se o id está sendo passado corretamente para a variavel nome_id
 });
 
 

@@ -1,11 +1,12 @@
 <div>
     <h1>Lista de Categorias</h1>
     <div>
+        <a href="/">Home</a><br><br>
         <a href="/categoria/create">Cadastrar Nova Categoria</a>
     </div>
     <br>
     <form action="{{ url('categoria/show') }}" method="GET">
-        <input type="text" name="search" placeholder="Procurar categoria"> 
+        <input type="text" name="search" placeholder="Procurar categoria">
         <button type="submit">Search</button>
     </form>
     <table border="1">
@@ -25,13 +26,13 @@
                         <a href="{{ url("categoria/$categorias->id/edit") }}">Editar</a>
                         <br>
                         <form method="POST" action="{{ url("categoria/$categorias->id") }}">
-                            @csrf 
+                            @csrf
                             @method('DELETE')
                             <button type="submit" onclick="return confirm('Tem certeza que deseja excluir a categoria {{$categorias->nome}}?')">Excluir</button>
                         </form>
                     </td>
                 </tr>
-            @endforeach   
+            @endforeach
         </tbod>
     </table>
 </div>

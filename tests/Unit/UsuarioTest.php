@@ -6,7 +6,7 @@ use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
+uses(TestCase::class, RefreshDatabase::class); // refresh cria o banco antes de cada teste / test inclue axuiliares de asserts etc...
 
 test("Verifica se nome e endereco é um objeto", function () {
     $usuario = Usuario::factory()->create();
@@ -159,6 +159,19 @@ test("Teste update Usuario",function (){
     ]);
 
 });
+
+test('Verifica o relacionamento', function () {
+    $nome = Nome::factory()->create();
+
+    $usuario = Usuario::factory()->create([
+        'nome_id' => $nome->id,
+        'endereco_id' => Endereco::factory()->create()->id,
+    ]);
+
+    $this->assertEquals($nome->nome, $usuario->nome->nome);//verifica se o nome associado é igual ao usuario
+    $this->assertTrue($usuario->nome_id == $nome->id);//verifica se o id está sendo passado corretamente para a variavel nome_id
+});
+
 
 
 

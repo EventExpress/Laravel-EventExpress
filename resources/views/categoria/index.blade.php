@@ -12,7 +12,7 @@
     <table border="1">
         <thead>
             <th>ID</th>
-            <th>Nome</th>
+            <th>Categoria</th>
             <th>Descrição</th>
             <th>Ações</th>
         </thead>
@@ -20,7 +20,7 @@
             @foreach($categoria as $categorias)
                 <tr>
                     <td>{{$categorias->id}}</td>
-                    <td>{{$categorias->nome}}</td>
+                    <td>{{$categorias->titulo}}</td>
                     <td>{{$categorias->descricao}}</td>
                     <td>
                         <a href="{{ url("categoria/$categorias->id/edit") }}">Editar</a>

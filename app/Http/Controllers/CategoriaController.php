@@ -21,11 +21,11 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required',
+            'titulo' => 'required',
             'descricao' => 'required'
         ]);
         Categoria::create([
-            'nome'=>$request->nome,
+            'titulo'=>$request->titulo,
             'descricao'=>$request->descricao
         ]);
         
@@ -35,7 +35,7 @@ class CategoriaController extends Controller
 
     public function show(Request $request){
         $search = $request->input('search');
-        $categoria = Categoria::where('nome','like',"%$search%")->get();
+        $categoria = Categoria::where('titulo','like',"%$search%")->get();
         return view('categoria.search', compact('categoria'));
     }
 
@@ -51,7 +51,7 @@ class CategoriaController extends Controller
         $categoria = Categoria::findOrFail($id);
 
         $request->validate([
-            'nome' => 'required',
+            'titulo' => 'required',
             'descricao' => 'required'
         ]);
 

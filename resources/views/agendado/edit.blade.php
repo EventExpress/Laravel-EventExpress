@@ -5,7 +5,7 @@
         <div>
             <label>
                 <span>Nome:</span>
-                <input type="text" name="nome" id="nome" value="{{$agendado->nome}}" readonly>
+                <input type="text" name="nome" id="nome" value="{{$agendado->nome->nome}}" readonly>
             </label>
         </div>
         <div>

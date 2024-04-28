@@ -4,8 +4,8 @@
         <h1>Editar Categoria</h1>
         <div>
             <label>
-                <span>Nome:</span>
-                <input type="text" name="nome" id="nome" value="{{$categoria->nome}}" required>
+                <span>Categoria:</span>
+                <input type="text" name="titulo" id="titulo" value="{{$categoria->titulo}}" required>
             </label>
         </div>
         <div>

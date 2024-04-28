@@ -1,8 +1,8 @@
 <div>
     <form action="/categoria" method="POST">
         <div>
-            <label for="nome">Nome:</label>
-            <input type="text" name="nome" id="nome" required>
+            <label for="titulo">Categoria:</label>
+            <input type="text" name="titulo" id="titulo" required>
         </div>
         <div>
             <label for="descricao">Descrição:</label>

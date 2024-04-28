@@ -18,7 +18,7 @@ class CategoriaFactory extends Factory
     public function definition(): array
     {
         return [
-            'nome' => fake()->randomElement(['Casamento','Festa Corporativa','Festa Infantil']),
+            'titulo' => fake()->randomElement(['Casamento','Festa Corporativa','Festa Infantil']),
             'descricao' => fake()->randomElement(['Realização de um evento', 'realização de uma festa']),
         ];
     }

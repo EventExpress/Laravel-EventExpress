@@ -13,10 +13,9 @@ class Agendados extends Model
         'id',
         'nome_id',
         'anuncio_id',
+        'adicional_id',
         'contrato',
-        'formaPagamento',
         'status',
-        'adicional_id'
     ];
 
     public function nome() {

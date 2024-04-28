@@ -10,6 +10,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/usuario/create', [UsuarioController::class, 'create'])->name('usuario.create');
+Route::post('/usuario/create', [UsuarioController::class, 'store']);
+
 Route::resource('/usuario', UsuarioController::class);
 
 Route::resource('/categoria', CategoriaController::class);

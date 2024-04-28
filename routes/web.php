@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controller\AgendadoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\AnuncioController;
@@ -17,4 +18,6 @@ Route::resource('/categoria', CategoriaController::class);
 Route::resource('/endereco', EnderecoController::class);
 
 Route::resource('/anuncio', AnuncioController::class);
+
+Route::resource('/agendado', AgendadoController::class);
 

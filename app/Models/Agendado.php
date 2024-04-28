@@ -11,8 +11,12 @@ class Agendados extends Model
     protected $fillable = 
     [
         'id',
-        'nome',
-        'descricao'
+        'nome_id',
+        'anuncio_id',
+        'contrato',
+        'formaPagamento',
+        'status',
+        'adicional_id'
     ];
 
     public function nome() {
@@ -22,4 +26,13 @@ class Agendados extends Model
     public function anuncio() {
         return $this->belongsTo(Anuncio::class);
     }
+
+    public function adicional() {
+        return $this->belongsTo(Adicional::class);
+    }
+
+    public function status() {
+        return $this->belongsTo(Status::class);
+    }
+
 }

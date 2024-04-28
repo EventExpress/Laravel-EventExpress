@@ -11,9 +11,10 @@ return new class extends Migration
     {
         Schema::create('agendados', function (Blueprint $table){
             $table->id();
-            $table->string('nome', 80);
-            $table->string('reservas', 50);
-            $table->string('contrato', 20);
+            $table->foreignId('nome_id')->constrained()->onDelete('cascade');
+            $table->foreignId('anuncio_id')->constrained()->onDelete('cascade');
+            $table->foreignId('adicional_id')->constrained()->onDelete('cascade');
+            $table->string('status');
             $table->timestamps();
         });
     }

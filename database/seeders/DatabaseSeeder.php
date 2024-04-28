@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Agendado;
 use App\Models\Nome;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,5 +25,6 @@ class DatabaseSeeder extends Seeder
 
         Usuario::factory()->create();
         //Categoria::factory()->createOne();
+        //Agendado::factory()->createOne();
     }
 }

@@ -15,9 +15,6 @@ test('acessa o formulário de criação de usuário', function () {
 });
 
 test('cria um novo usuário', function () {
-    $response = $this->get('usuario/create');
-    $response->assertStatus(200);
-
     $endereco = Endereco::factory()->create();
 
     $nome = Nome::factory()->create();
@@ -40,9 +37,7 @@ test('cria um novo usuário', function () {
     expect(Usuario::where('telefone', '123456789')->exists())->toBeTrue();
 });
 
-test('verifica se após a criação de um usuário é direcionado para a página inicial', function () {
-    $response = $this->get('usuario');
-    $response->assertStatus(200);
+test('atualiza Usuario', function () {
 
     $endereco = Endereco::factory()->create();
 
@@ -58,11 +53,33 @@ test('verifica se após a criação de um usuário é direcionado para a página
         'cnpj' => '',
         'endereco_id' => $endereco->id,
     ]);
+    $usuario->update([
+        'telefone' => '41988070119',
+        'cpf' => '143.222.555-02',
+    ]);
+    $usuario->refresh();
 
-    $response = $this->post(route('usuario.create'), $usuario->toArray());
-
-    $response->assertRedirect('/usuario');
-
-    expect(Usuario::where('telefone', '123456789')->exists())->toBeTrue();
+    expect($usuario->telefone)->toBe('41988070119');
+    expect($usuario->cpf)->toBe('143.222.555-02');
 });
+
+test('deletar usuario', function () {
+
+    $usuario = Usuario::factory()->create();
+    $usuario->delete();
+
+    expect(usuario::find($usuario->id))->toBeNull();
+});
+
+test(' verifica se é possivel atualizar tabela nome', function () {
+
+    $nome = Nome::factory()->create();
+    $usuario = Usuario::factory()->create();
+
+    $usuario->update(['nome_id' => $nome->id]);//verifica a associação atualizando o nome_id pelo id do nome.
+    $usuario->refresh();
+
+    expect($usuario->nome_id)->toBe($nome->id);
+});
+
 

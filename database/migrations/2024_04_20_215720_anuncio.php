@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('endereco_id')->constrained()->onDelete('cascade');
             $table->string('capacidade', 50);
             $table->string('descricao', 100);
-            $table->string('locador', 80);
+            $table->string('usuario_id', 80);
             $table->decimal('valor', 10);
             $table->date('agenda');
             $table->string('status');

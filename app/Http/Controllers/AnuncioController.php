@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Endereco;
+use App\Models\Usuario;
 use App\Models\Anuncio;
 use Illuminate\Http\Request;
 
@@ -13,16 +14,17 @@ class AnuncioController extends Controller
      */
     public function index()
     {
-        $anuncio = Anuncio::all();
-        return view('anuncio.index',['anuncio'=> $anuncio]);   
+        $anuncio = Anuncio::with('usuario')->get();
+        return view('anuncio.index',['anuncio'=>$anuncio]);  
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request, $usuario)
     {
-        return view ('anuncio.createanuncio');
+
+        return view('anuncio.create', ['usuario' => $usuario]);
     }
 
     public function store(Request $request)
@@ -30,30 +32,33 @@ class AnuncioController extends Controller
         $request->validate([
             'titulo' => 'required',
             'categoria'=> 'required',
-            'endereco'=>'required',
+            'cidade' => 'required',
+            'cep' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
             'capacidade'=>'required',
             'descricao'=>'required',
-            'locador'=>'required',
             'valor'=>'required',
             'agenda'=>'required',
             'status'=>'required'
         ]);
+
+        $usuario = Usuario::with('usuario')->find($id);
 
         $endereco = new Endereco();
         $endereco->cidade = $request->cidade;
         $endereco->cep = $request->cep;
         $endereco->numero = $request->numero;
         $endereco->bairro = $request->bairro;
-        $endereco->save();       
-
+        $endereco->save();      
 
         $anuncio = new Anuncio();
+        $anuncio->usuario_id = $usuario;
         $anuncio->titulo = $request->titulo;
         $anuncio->categoria = $request->categoria;
-        $anuncio->endreco_id = $endereco->id;
+        $anuncio->endereco_id = $endereco->id;
         $anuncio->capacidade = $request->capacidade;
         $anuncio->descricao = $request->descricao;
-        $anuncio->usuario = $request->usuario;
         $anuncio->valor = $request->valor;
         $anuncio->agenda = $request->agenda;
         $anuncio->status = $request->status;

@@ -1,5 +1,5 @@
 <div>
-    <form action="/anuncio" method="POST">
+    <form action="{{url("anuncio/create?usuario_id=$usuarios->id") }}" method="POST">
         <div>
             <label for="nome">
                 Titulo:
@@ -72,10 +72,6 @@
             </label>
             </label>
             <select name="status" id="status" required>
-                <option value="Pago">Pago</option>
-                <option value="Processando">Processando</option>
-                <option value="Cancelado">Cancelado</option>
-                <option value="Pendente">Pendente</option>
                 <option value="Disponivel">Disponível</option>
                 <option value="Reservado">Reservado</option>
             </select>
@@ -87,4 +83,3 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
     </form>
 </div>
-

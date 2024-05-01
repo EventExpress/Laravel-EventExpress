@@ -33,7 +33,7 @@
                     <td>{{ $usuario->telefone }}</td>
                     <td>{{ $usuario->cpf }}</td>
                     <td>{{ $usuario->tipousu }}</td>
-                    <td>{{ $usuario->endereco }}</td>
+                    <td>{{$usuario->endereco->cidade}}, CEP:{{$usuario->endereco->cep}}, Numero :{{$usuario->endereco->numero}},{{$usuario->endereco->bairro}}</td>
                     <td>{{ $usuario->datanasc }}</td>
                     <td>
                         <a href="{{ url("usuario/$usuario->id/edit") }}">Editar</a>

@@ -34,6 +34,14 @@ class AnuncioController extends Controller
     }
 
 
+    public function verificaLocador($usuarioId)
+{
+    $usuario = Usuario::find($usuarioId);
+
+    if (!$usuario->tipouso === 'Cliente') {
+        return false; // Retorna falso se o usuário não for encontrado
+    }
+}
     public function store(Request $request)
     {
         $request->validate([
@@ -61,6 +69,7 @@ class AnuncioController extends Controller
             return redirect('/anuncio')->with('error', 'Usuário não encontrado');
         }
 
+
         $anuncio = new Anuncio();
         $anuncio-> usuario_id =$usuarioId;
         $anuncio->titulo = $request->titulo;
@@ -77,31 +86,55 @@ class AnuncioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AnuncioController $anuncio,$id)
+    public function show(Request $request)
     {
+        $search = $request->input('search');
+
+        // Realiza a pesquisa nos campos desejados
+        $results = Anuncio::whereHas('endereco', function ($query) use ($search) {
+                    $query->where('cidade', 'like', "%$search%")
+                          ->orWhere('cep', 'like', "%$search%")
+                          ->orWhere('numero', 'like', "%$search%")
+                          ->orWhere('bairro', 'like', "%$search%");
+                })
+                ->orWhere('titulo', 'like', "%$search%")
+                ->orWhere('capacidade', 'like', "%$search%")
+                ->orWhere('descricao', 'like', "%$search%")
+                ->orWhereHas('usuario', function ($query) use ($search) {
+                    $query->where('nome', 'like', "%$search%");
+                })
+                ->orWhere('valor', 'like', "%$search%")
+                ->orWhere('agenda', 'like', "%$search%")
+                ->get();
+    
+        return view('anuncio.searchanuncio', compact('results'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AnuncioController $anuncio)
+    public function edit($id)
     {
-        //
+        $anuncio = Anuncio::find($id);
+        return view('anuncio.editaanuncio', compact('anuncio'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AnuncioController $anuncio)
+    public function update(Request $request, $id)
     {
-        //
+        $anuncio = Anuncio::find($id);  
+        return redirect('/anuncio');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AnuncioController $anuncio)
+    public function destroy($id)
     {
-        //
+        $anuncio = Anuncio::find($id);
+        $anuncio->delete();
+        return redirect('/anuncio');
     }
 }

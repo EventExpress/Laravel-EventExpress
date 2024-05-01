@@ -8,34 +8,29 @@ use Illuminate\Database\Eloquent\Model;
 class Anuncio extends Model
 {
     use HasFactory;
-    protected $fillable = 
+    protected $fillable =
     [
         'titulo',
-        'categoria',
         'endereco_id',
         'capacidade',
         'descricao',
-        'locador',
+        'usuario_id',
         'valor',
         'agenda',
-        'status'
     ];
 
     public function endereco() {
         return $this->belongsTo(Endereco::class);
     }
-    public function status() {
-        return $this->belongsTo(Status::class);
-    }
-    
+
     public function categoria() {
         return $this->belongsTo(Categoria::class);
     }
 
     public function usuario() {
-        return $this->hasMany(Usuario::class);
+        return $this->belongsTo(Usuario::class);
     }
-    
+
     public function nome() {
         return $this->hasMany(Nome::class);
     }

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdicionalController;
-use App\Http\Controller\AgendadoController;
+use App\Http\Controllers\AgendadoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\AnuncioController;
@@ -11,14 +11,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('anuncio/{usuario}/create', [AnuncioController::class, 'create'])->name('anuncio.create');
+Route::post('anuncio', [AnuncioController::class, 'store'])->name('anuncio.store');
+Route::get('/anuncio', [AnuncioController::class, 'index'])->name('anuncio.index');
+
+//Route::resource('/anuncio', AnuncioController::class);
 
 Route::resource('/usuario', UsuarioController::class);
 
 Route::resource('/categoria', CategoriaController::class);
 
 Route::resource('/endereco', EnderecoController::class);
-
-Route::resource('/anuncio', AnuncioController::class);
 
 Route::resource('/agendado', AgendadoController::class);
 

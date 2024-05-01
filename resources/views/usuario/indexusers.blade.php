@@ -39,7 +39,7 @@
                             <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o usuario {{$usuarios->nome->nome}} ?')"> Excluir</button>
 
                         </form>
-                        <a href="{{ route('anuncio.create', ['usuario' => $usuario->id]) }}">Criar anúncio</a>
+                        <a href="{{ route('anuncio.create', ['usuario' => $usuarios->id]) }}">Criar anúncio</a>
                     </td>
                 </tr>
             @endforeach

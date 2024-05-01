@@ -12,14 +12,12 @@ return new class extends Migration
         Schema::create('anuncios', function (Blueprint $table){
             $table->id();
             $table->string('titulo', 80);
-            $table->string('categoria', 30);
             $table->foreignId('endereco_id')->constrained()->onDelete('cascade');
             $table->string('capacidade', 50);
             $table->string('descricao', 100);
-            $table->string('usuario_id', 80);
+            $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
             $table->decimal('valor', 10);
             $table->date('agenda');
-            $table->string('status');
             $table->timestamps();
         });
     }

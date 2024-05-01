@@ -17,6 +17,6 @@ class Usuario extends Model
         return $this->belongsTo(Endereco::class);
     }
     public function anuncio() {
-        return $this->belongsTo(Anuncio::class);
+        return $this->hasMany(Anuncio::class);
     }
 }

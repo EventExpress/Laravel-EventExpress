@@ -14,24 +14,30 @@ class AnuncioController extends Controller
      */
     public function index()
     {
-        $anuncio = Anuncio::with('usuario')->get();
-        return view('anuncio.index',['anuncio'=>$anuncio]);  
+        $anuncio = Anuncio::all();
+        return view('anuncio.index',['anuncio'=> $anuncio]);
     }
 
+
+    public function buscaUsuario($usuarios) {
+        $buscausuario = Usuario::find($usuarios);
+        return $buscausuario;
+    }
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, $usuario)
+    public function create($usuarios)
     {
-
-        return view('anuncio.create', ['usuario' => $usuario]);
+        $usuarioId = $usuarios;
+        $usuario = $this->buscaUsuario($usuarioId);
+        return view('anuncio.create',['usuario'=>$usuario]);
     }
+
 
     public function store(Request $request)
     {
         $request->validate([
             'titulo' => 'required',
-            'categoria'=> 'required',
             'cidade' => 'required',
             'cep' => 'required',
             'numero' => 'required',
@@ -40,39 +46,39 @@ class AnuncioController extends Controller
             'descricao'=>'required',
             'valor'=>'required',
             'agenda'=>'required',
-            'status'=>'required'
         ]);
-
-        $usuario = Usuario::with('usuario')->find($id);
+        $usuarioId = $request->input('usuario_id');
 
         $endereco = new Endereco();
         $endereco->cidade = $request->cidade;
         $endereco->cep = $request->cep;
         $endereco->numero = $request->numero;
         $endereco->bairro = $request->bairro;
-        $endereco->save();      
+        $endereco->save();
+
+        $usuario = Usuario::find($usuarioId);
+        if (!$usuario) {
+            return redirect('/anuncio')->with('error', 'Usuário não encontrado');
+        }
 
         $anuncio = new Anuncio();
-        $anuncio->usuario_id = $usuario;
+        $anuncio-> usuario_id =$usuarioId;
         $anuncio->titulo = $request->titulo;
-        $anuncio->categoria = $request->categoria;
         $anuncio->endereco_id = $endereco->id;
         $anuncio->capacidade = $request->capacidade;
         $anuncio->descricao = $request->descricao;
         $anuncio->valor = $request->valor;
         $anuncio->agenda = $request->agenda;
-        $anuncio->status = $request->status;
         $anuncio->save();
 
-        return redirect('/anuncio.index');
+        return redirect('/anuncio');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(AnuncioController $anuncio)
+    public function show(AnuncioController $anuncio,$id)
     {
-
     }
 
     /**

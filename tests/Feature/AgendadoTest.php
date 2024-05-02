@@ -5,12 +5,17 @@ use function Pest\Laravel\postJson;
 use App\Models\Agendado;
 use App\Models\Anuncio;
 
-uses(RefreshDatabase::class); 
+uses(RefreshDatabase::class);
 
 test('acessa o formulário de criação de agendado', function () {
-    $retorno = $this->get('agendado/create');
+    $anuncio = Anuncio::factory()->create();
+    $anuncioId = $anuncio->id;
+
+    $retorno = $this->get("anuncio/{$anuncioId}/reservar");
+
     $retorno->assertStatus(200);
 });
+
 
 test('verifica direcionamento da index/', function () {
     $response = $this->get('/agendado');
@@ -32,18 +37,30 @@ test('Rota delete redireciona corretamente após a exclusão', function () {
     $this->assertDatabaseMissing('agendados', ['id' => $agendado->id]);
 });
 
-test ('create agendado', function (){
-    $anuncio = Anuncio::factory()->create(); 
-    
-    $agendado = Agendado::factory()->create([
+
+test('create agendado', function () {
+    $anuncio = Anuncio::factory()->create();
+
+    $agendadoData = [
         'anuncio_id' => $anuncio->id,
         'data_inicio' => '2024-05-10',
         'data_fim' => '2024-05-12',
-    ]);
-    $this->post(route('agendado.create'),$agendado->toArray());
+    ];
 
-    expect(Agendado::where('data_inicio', '2024-05-10')->exists())->toBeTrue();
+    $url = route('agendado.store');
+
+    $response = $this->post($url, $agendadoData);
+
+    $response->assertRedirect('/anuncio');
+
+    $agendamentoCriado = Agendado::where('anuncio_id', $anuncio->id)
+        ->where('data_inicio', '2024-05-10 00:00:00')//zeros devido a como está sendo inserido no banco com o carbon.
+        ->where('data_fim', '2024-05-12 00:00:00')
+        ->first();
+
+    $this->assertNotNull($agendamentoCriado);
 });
+
 
 test ( 'update agendado ',function (){
 

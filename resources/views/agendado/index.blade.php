@@ -6,7 +6,7 @@
     </div>
     <br>
     <form action="{{ url('agendado/show') }}" method="GET">
-        <input type="text" name="search" placeholder="Procurar reserva"> 
+        <input type="text" name="search" placeholder="Procurar reserva">
         <button type="submit">Search</button>
     </form>
     <table border="1">
@@ -38,13 +38,13 @@
                         <a href="{{ url("agendado/$agendados->id/edit") }}">Editar</a>
                         <br>
                         <form method="POST" action="{{ url("agendado/$agendados->id") }}">
-                            @csrf 
+                            @csrf
                             @method('DELETE')
                             <button type="submit" onclick="return confirm('Tem certeza que deseja cancelar a reserva {{$agendados->nome}}?')">Cancelar</button>
                         </form>
                     </td>
                 </tr>
-            @endforeach   
+            @endforeach
         </tbod>
     </table>
 </div>

@@ -18,30 +18,33 @@ class AnuncioController extends Controller
         return view('anuncio.index',['anuncio'=> $anuncio]);
     }
 
-
     public function buscaUsuario($usuarios) {
         $buscausuario = Usuario::find($usuarios);
         return $buscausuario;
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create($usuarios)
     {
         $usuarioId = $usuarios;
         $usuario = $this->buscaUsuario($usuarioId);
-        return view('anuncio.create',['usuario'=>$usuario]);
+
+        if ($this->verificaLocador($usuarioId)) {
+            return redirect('/')->with('error', 'Você não tem permissão para criar anúncios.');
+        }
+
+        return view('anuncio.create', ['usuario' => $usuario]);
     }
-
-
     public function verificaLocador($usuarioId)
-{
-    $usuario = Usuario::find($usuarioId);
+    {
+        $usuario = Usuario::find($usuarioId);
 
-    if (!$usuario->tipouso === 'Cliente') {
-        return false; // Retorna falso se o usuário não for encontrado
+        if ($usuario && $usuario->tipousu === 'Locador') {
+            return false;
+        }
+
+        return true;
     }
-}
+
     public function store(Request $request)
     {
         $request->validate([
@@ -57,6 +60,8 @@ class AnuncioController extends Controller
         ]);
         $usuarioId = $request->input('usuario_id');
 
+
+
         $endereco = new Endereco();
         $endereco->cidade = $request->cidade;
         $endereco->cep = $request->cep;
@@ -64,11 +69,9 @@ class AnuncioController extends Controller
         $endereco->bairro = $request->bairro;
         $endereco->save();
 
-        $usuario = Usuario::find($usuarioId);
-        if (!$usuario) {
-            return redirect('/anuncio')->with('error', 'Usuário não encontrado');
+        if (!$endereco) {
+            return redirect('/anuncio')->with('error', 'Erro ao salvar endereço');
         }
-
 
         $anuncio = new Anuncio();
         $anuncio-> usuario_id =$usuarioId;
@@ -79,6 +82,10 @@ class AnuncioController extends Controller
         $anuncio->valor = $request->valor;
         $anuncio->agenda = $request->agenda;
         $anuncio->save();
+
+        if (!$anuncio) {
+            return redirect('/anuncio')->with('error', 'Erro ao criar anúncio');
+        }
 
         return redirect('/anuncio');
     }

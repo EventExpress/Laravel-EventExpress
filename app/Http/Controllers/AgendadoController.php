@@ -6,14 +6,16 @@ namespace App\Http\Controllers;
 use App\Models\Agendado;
 //use App\Models\Adicional;
 use App\Models\Anuncio;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AgendadoController extends Controller
-{   
+{
     public function index()
     {
         $agendado = Agendado::all();
-        return view('agendado.index', ['agendado' => $agendado]);   
+        return view('agendado.index', ['agendado' => $agendado]);
     }
 
     /**
@@ -21,6 +23,7 @@ class AgendadoController extends Controller
      */
     public function create($anuncioId)
     {
+
         $anuncio = Anuncio::find($anuncioId);
 
         if (!$anuncio) {
@@ -41,14 +44,17 @@ class AgendadoController extends Controller
             'data_fim' => 'required',
         ]);
 
+        $dataInicio = Carbon::parse($request->data_inicio)->toDateTimeString();
+        $dataFim = Carbon::parse($request->data_fim)->toDateTimeString();
+
         $agendado = new Agendado();
         $agendado->anuncio_id = $request->anuncio_id;
-        $agendado->data_inicio = $request->data_inicio;
-        $agendado->data_fim = $request->data_fim;
+        $agendado->data_inicio = $dataInicio;
+        $agendado->data_fim = $dataFim;
         $agendado->confirmado = false; // Por padrão, novo agendado não está confirmado
         $agendado->save();
 
-        return redirect()->route('agendado.index')->with('success', 'Reserva criada com sucesso.');
+        return redirect('/anuncio');
     }
 
     public function show(Request $request)

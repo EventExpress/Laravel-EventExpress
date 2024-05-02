@@ -36,7 +36,8 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o anuncio {{$anuncios->titulo}} ?')"> Excluir</button>
-                        <a href="{{ route('agendado.create', ['anuncio' => $anuncios->id]) }}">Reservar</a>
+                        <a href="{{ route('agendado.create', ['anuncioId' => $anuncios->id]) }}">Reservar</a>
+
                     </form>
                 </td>
             </tr>

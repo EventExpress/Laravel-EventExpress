@@ -1,5 +1,5 @@
 <div>
-    <form action="{{ url("/anuncio/$anuncio->id") }}" method="POST">
+    <form action="{{ route('anuncio.update', $anuncio->id) }}" method="POST">
         @method("PUT")
         <h1 class="text-xl font-bold mb-4">Editar anuncio</h1>
         <div>

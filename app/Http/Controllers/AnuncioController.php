@@ -106,7 +106,7 @@ class AnuncioController extends Controller
                 ->orWhere('valor', 'like', "%$search%")
                 ->orWhere('agenda', 'like', "%$search%")
                 ->get();
-    
+
         return view('anuncio.searchanuncio', compact('results'));
     }
 
@@ -124,9 +124,38 @@ class AnuncioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $anuncio = Anuncio::find($id);  
-        return redirect('/anuncio');
+        // Validação dos dados do formulário
+        $request->validate([
+            'titulo' => 'required',
+            'cidade' => 'required',
+            'cep' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
+            'capacidade' => 'required',
+            'descricao' => 'required',
+        ]);
+
+        $anuncio = Anuncio::find($id);
+
+        if (!$anuncio) {
+            return redirect()->route('anuncio.index')->with('error', 'Anúncio não encontrado.');
+        }
+
+        $anuncio->update([
+            'titulo' => $request->titulo,
+            'capacidade' => $request->capacidade,
+            'descricao' => $request->descricao,
+        ]);
+        $endereco = Endereco::find($anuncio->endereco_id);
+
+        $endereco->update(['cidade' => $request->input('cidade')]);
+        $endereco->update(['cep' => $request->input('cep')]);
+        $endereco->update(['numero' => $request->input('numero')]);
+        $endereco->update(['bairro' => $request->input('bairro')]);
+
+        return redirect()->route('anuncio.index')->with('success', 'Anúncio atualizado com sucesso.');
     }
+
 
     /**
      * Remove the specified resource from storage.

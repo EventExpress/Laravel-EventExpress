@@ -12,12 +12,11 @@
         <thead>
         <th>ID</th>
         <th>Titulo</th>
-        <th>Categoria</th>
         <th>Endereço</th>
+        <th>Capacidade</th>
         <th>Descrição</th>
         <th>locador</th>
         <th>Valor</th>
-        <th>Agenda</th>
         <th>Ações</th>
         </thead>
         <tbody>
@@ -30,7 +29,6 @@
                 <td>{{$anuncios->descricao}}</td>
                 <td>{{$anuncios->usuario->nome->nome}}</td>
                 <td>{{$anuncios->valor}}</td>
-                <td>{{$anuncios->agenda}}</td>
                 <td>
                     <a href="{{url("anuncio/$anuncios->id/edit")}}">Editar</a>
                     <br>

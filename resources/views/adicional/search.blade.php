@@ -12,7 +12,7 @@
         <button type="submit">Search</button>
     </form>
     
-    @if ($results->count() > 0)
+    @if ($adicional->count() > 0)
         <table border="1">
             <thead>
             <th>ID</th>

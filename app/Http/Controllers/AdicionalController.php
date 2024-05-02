@@ -82,7 +82,7 @@ class AdicionalController extends Controller
     {
         $adicional = Adicional::find($id);
 
-        if (!$adiconal) {
+        if (!$adicional) {
             return redirect()->route('adicional.index')->with('Adicional não encontrado.');
         }
 

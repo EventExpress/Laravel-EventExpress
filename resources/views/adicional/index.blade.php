@@ -31,7 +31,7 @@
                         <form method="POST" action="{{ url("adicional/$adicionais->id") }}">
                             @csrf 
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o adicional {{$adicionais->nome_adicional}}?')">Excluir</button>
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o adicional {{$adicionais->titulo}}?')">Excluir</button>
                         </form>
                     </td>
                 </tr>

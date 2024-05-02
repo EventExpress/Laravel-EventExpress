@@ -57,6 +57,8 @@ class AnuncioController extends Controller
         ]);
         $usuarioId = $request->input('usuario_id');
 
+
+
         $endereco = new Endereco();
         $endereco->cidade = $request->cidade;
         $endereco->cep = $request->cep;
@@ -64,11 +66,9 @@ class AnuncioController extends Controller
         $endereco->bairro = $request->bairro;
         $endereco->save();
 
-        $usuario = Usuario::find($usuarioId);
-        if (!$usuario) {
-            return redirect('/anuncio')->with('error', 'Usuário não encontrado');
+        if (!$endereco) {
+            return redirect('/anuncio')->with('error', 'Erro ao salvar endereço');
         }
-
 
         $anuncio = new Anuncio();
         $anuncio-> usuario_id =$usuarioId;
@@ -79,6 +79,10 @@ class AnuncioController extends Controller
         $anuncio->valor = $request->valor;
         $anuncio->agenda = $request->agenda;
         $anuncio->save();
+
+        if (!$anuncio) {
+            return redirect('/anuncio')->with('error', 'Erro ao criar anúncio');
+        }
 
         return redirect('/anuncio');
     }

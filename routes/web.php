@@ -15,6 +15,10 @@ Route::get('anuncio/{usuario}/create', [AnuncioController::class, 'create'])->na
 Route::post('anuncio', [AnuncioController::class, 'store'])->name('anuncio.store');
 Route::get('/anuncio', [AnuncioController::class, 'index'])->name('anuncio.index');
 
+Route::get('anuncio/{usuario}/edit', [AnuncioController::class, 'edit'])->name('anuncio.edit');
+Route::put('anuncio/{usuario}', [AnuncioController::class, 'update'])->name('anuncio.update');
+Route::delete('anuncio/{usuario}', [AnuncioController::class, 'destroy'])->name('anuncio.destroy');
+
 //Route::resource('/anuncio', AnuncioController::class);
 
 Route::resource('/usuario', UsuarioController::class);

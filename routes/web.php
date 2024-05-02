@@ -19,6 +19,14 @@ Route::get('anuncio/{anuncio}/edit', [AnuncioController::class, 'edit'])->name('
 Route::put('anuncio/{anuncio}', [AnuncioController::class, 'update'])->name('anuncio.update');
 Route::delete('anuncio/{anuncio}', [AnuncioController::class, 'destroy'])->name('anuncio.destroy');
 
+
+Route::get('anuncio/{anuncioId}/reservar', [AgendadoController::class, 'create'])->name('agendado.create');
+Route::post('agendado', [AgendadoController::class, 'store'])->name('agendado.store');
+Route::get('agendado/{id}/edit', [AgendadoController::class, 'edit'])->name('agendado.edit');
+Route::put('agendado/{id}', [AgendadoController::class, 'update'])->name('agendado.update');
+Route::delete('agendado/{id}', [AgendadoController::class, 'destroy'])->name('agendado.destroy');
+
+
 Route::resource('/anuncio', AnuncioController::class);
 
 Route::resource('/usuario', UsuarioController::class);

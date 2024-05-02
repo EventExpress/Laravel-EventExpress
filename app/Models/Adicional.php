@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Agendados extends Model
+class Adicional extends Model
 {
     use HasFactory;
     protected $fillable = 

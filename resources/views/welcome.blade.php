@@ -17,6 +17,10 @@
 </div>
 <div>
     <br>
+    <a href="/agendado">Visualizar Agendados</a>
+</div>
+<div>
+    <br>
     <a href="/endereco">Cadastrar Endereço</a>
 </div>
 <div>

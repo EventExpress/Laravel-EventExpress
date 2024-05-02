@@ -35,4 +35,9 @@ class Anuncio extends Model
         return $this->hasMany(Nome::class);
     }
 
+    public function agendamentos()
+    {
+        return $this->hasMany(Agendamento::class);
+    }
+
 }

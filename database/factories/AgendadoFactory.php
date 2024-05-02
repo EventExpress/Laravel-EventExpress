@@ -2,33 +2,29 @@
 
 namespace Database\Factories;
 
-use App\Models\Nome;
-use App\Models\Adicional;
 use App\Models\Agendado;
 use App\Models\Anuncio;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
- */
 class AgendadoFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function definition(): array
     {
         $anuncio = Anuncio::factory()->create();
-        $adicional = Adicional::factory()->create();
-        $nome = Nome::factory()->create();
+
+        $dataInicio = $this->faker->dateTimeBetween('-1 month', '+1 month');
+        $dataFim = $this->faker->dateTimeBetween($dataInicio, '+1 month');
+
         return [
-            'nome_id' => $nome->id,
             'anuncio_id' => $anuncio->id,
-            'adicional_id' => $adicional->id,
-            //'status' => $status
-            
+            'data_inicio' => $dataInicio,
+            'data_fim' => $dataFim,
+            'confirmado' => $this->faker->boolean(90),
         ];
     }
 }

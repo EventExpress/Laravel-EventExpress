@@ -11,25 +11,18 @@ class Adicional extends Model
     protected $fillable = 
     [
         'titulo',
-        'anuncio_id',
-        'categoria_id',
         'descricao',
         'valor',
         'disponibilidade',
-        'status',
         
     ];
 
-    public function anuncio() {
+    /**public function anuncio() {
         return $this->belongsTo(Anuncio::class);
-    }
+    }*/
 
-    public function categoria() {
+    /**public function categoria() {
         return $this->belongsTo(Categoria::class);
-    }
-
-    public function status() {
-        return $this->belongsTo(Status::class);
-    }
+    }*/
 
 }

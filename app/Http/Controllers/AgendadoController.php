@@ -83,8 +83,8 @@ class AgendadoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'data_inicio' => 'required|date',
-            'data_fim' => 'required|date|after:data_inicio',
+            'data_inicio' => 'required',
+            'data_fim' => 'required',
         ]);
 
         $agendado = Agendado::find($id);

@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Adicional;
-use App\Models\Anuncio;
-use App\Models\Categoria;
-use App\Models\Status;
+
 
 class AdicionalController extends Controller
 {
@@ -25,37 +23,30 @@ class AdicionalController extends Controller
     {
         $request->validate([
             'titulo' => 'required',
-            'anuncio_id' => 'required',
-            'categoria_id' => 'required',
             'descricao' => 'required',
             'valor' => 'required',
             'disponibilidade' => 'required',
-            'status' => 'required'
         ]);
 
         $adicional = new Adicional();
         $adicional->titulo = $request->titulo;
-        $adicional->anuncio_id = $request->anuncio;
-        $adicional->categoria_id = $request->categoria;
         $adicional->descricao = $request->descricao;
         $adicional->valor = $request->valor;
         $adicional->disponibilidade = $request->disponibilidade;
-        $adicional->status = $request->status;
         $adicional->save();
 
-        return redirect()->route('adicional.index')->with('categoria criada com sucesso');
+        return redirect()->route('adicional.index')->with('adicional criada com sucesso');
     }
     public function show(Request $request){
 
         $search = $request->input('search');
         
-        $results = Adicional::where('titulo','like',"%$search%")
+        $adicional = Adicional::where('titulo','like',"%$search%")
             ->orWhere('valor','like',"%$search%")
-            ->orWhere('categoria','like',"%$search%")
-            ->orWhere('anuncio','like',"%$search%")
+            ->orWhere('disponibilidade','like',"%$search%")
             ->get();
 
-        return view('adicional.search', compact('results'));
+        return view('adicional.search', compact('adicional'));
     }
 
     public function edit($id)
@@ -66,29 +57,37 @@ class AdicionalController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'titulo' => 'required',
+            'descricao' => 'required',
+            'valor' => 'required',
+            'disponibilidade' => 'required',
+        ]);
+
         $adicional = Adicional::find($id);
 
-        if (!$adicional){
-            return redirect()->route('adicional.index')->with('Adicional não encontrado');
+        if (!$adicional) {
+            return redirect()->route('adicional.index')->with('Adicional não encontrado.');
         }
-        $adicional->update($request->all());
-        if ($request->has('titulo')){
-            $adicional->update(['titulo' => $request->input('titulo')]);
-        }
+        $adicional->titulo = $request->titulo;
+        $adicional->descricao = $request->descricao;
+        $adicional->valor = $request->valor;
+        $adicional->disponibilidade = $request->disponibilidade;
+        $adicional->save();
 
-        return redirect()->route('adicional.index')->with('Adicional atualizada com sucesso');
+        return redirect()->route('adicional.index')->with('Adicional atualizada com sucesso.');
     }
 
     public function destroy($id)
     {
-        $adicional = Adicional::findOrFail($id);
+        $adicional = Adicional::find($id);
 
-        if ($adicional){
-            $adicional->delete();
-            return redirect()->route('adicional.index')->with('Adicional excluída com sucesso.');
-        }
-        else {
+        if (!$adiconal) {
             return redirect()->route('adicional.index')->with('Adicional não encontrado.');
         }
+
+        $adicional->delete();
+
+        return redirect()->route('adicional.index')->with('Adicional cancelado com sucesso.');
     }
 }

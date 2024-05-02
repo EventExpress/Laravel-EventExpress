@@ -17,25 +17,19 @@
             <thead>
             <th>ID</th>
             <th>Nome do adicional</th>
-            <th>Anuncio</th>
-            <th>Categoria</th>
             <th>Descrição</th>
             <th>Valor</th>
             <th>Disponibilidade</th>
-            <th>Status</th>
             <th>Ações</th>
             </thead>
             <tbod>
-                @foreach($results as $adicionais)
+                @foreach($adicional as $adicionais)
                     <tr>
                         <td>{{$adicionais->id}}</td>
                         <td>{{$adicionais->titulo}}</td>
-                        <td>{{$adicionais->anuncio->nome}}</td>
-                        <td>{{$adicionais->categoria->nome}}</td>
                         <td>{{$adicionais->descricao}}</td>
                         <td>{{$adicionais->valor}}</td>
                         <td>{{$adicionais->disponibilidade}}</td>
-                        <td>{{$adicionais->status}}</td>
                         <td>
                             <a href="{{ url("adicional/$adicionais->id/edit") }}">Editar</a>
                             <br>

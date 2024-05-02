@@ -18,30 +18,33 @@ class AnuncioController extends Controller
         return view('anuncio.index',['anuncio'=> $anuncio]);
     }
 
-
     public function buscaUsuario($usuarios) {
         $buscausuario = Usuario::find($usuarios);
         return $buscausuario;
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create($usuarios)
     {
         $usuarioId = $usuarios;
         $usuario = $this->buscaUsuario($usuarioId);
-        return view('anuncio.create',['usuario'=>$usuario]);
+
+        if ($this->verificaLocador($usuarioId)) {
+            return redirect('/')->with('error', 'Você não tem permissão para criar anúncios.');
+        }
+
+        return view('anuncio.create', ['usuario' => $usuario]);
     }
-
-
     public function verificaLocador($usuarioId)
-{
-    $usuario = Usuario::find($usuarioId);
+    {
+        $usuario = Usuario::find($usuarioId);
 
-    if (!$usuario->tipouso === 'Cliente') {
-        return false; // Retorna falso se o usuário não for encontrado
+        if ($usuario && $usuario->tipousu === 'Locador') {
+            return false;
+        }
+
+        return true;
     }
-}
+
     public function store(Request $request)
     {
         $request->validate([
@@ -110,7 +113,7 @@ class AnuncioController extends Controller
                 ->orWhere('valor', 'like', "%$search%")
                 ->orWhere('agenda', 'like', "%$search%")
                 ->get();
-    
+
         return view('anuncio.searchanuncio', compact('results'));
     }
 
@@ -128,9 +131,38 @@ class AnuncioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $anuncio = Anuncio::find($id);  
-        return redirect('/anuncio');
+        // Validação dos dados do formulário
+        $request->validate([
+            'titulo' => 'required',
+            'cidade' => 'required',
+            'cep' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
+            'capacidade' => 'required',
+            'descricao' => 'required',
+        ]);
+
+        $anuncio = Anuncio::find($id);
+
+        if (!$anuncio) {
+            return redirect()->route('anuncio.index')->with('error', 'Anúncio não encontrado.');
+        }
+
+        $anuncio->update([
+            'titulo' => $request->titulo,
+            'capacidade' => $request->capacidade,
+            'descricao' => $request->descricao,
+        ]);
+        $endereco = Endereco::find($anuncio->endereco_id);
+
+        $endereco->update(['cidade' => $request->input('cidade')]);
+        $endereco->update(['cep' => $request->input('cep')]);
+        $endereco->update(['numero' => $request->input('numero')]);
+        $endereco->update(['bairro' => $request->input('bairro')]);
+
+        return redirect()->route('anuncio.index')->with('success', 'Anúncio atualizado com sucesso.');
     }
+
 
     /**
      * Remove the specified resource from storage.

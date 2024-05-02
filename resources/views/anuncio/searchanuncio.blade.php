@@ -29,7 +29,7 @@
                 <tr>
                     <td>{{ $anuncio->id }}</td>
                     <td>{{ $anuncio->titulo }}</td>
-                    <td>{{$anuncios->endereco->cidade}}, CEP:{{$anuncios->endereco->cep}}, Numero :{{$anuncios->endereco->numero}},{{$anuncios->endereco->bairro}}</td>
+                    <td>{{$anuncio->endereco->cidade}}, CEP:{{$anuncio->endereco->cep}}, Numero :{{$anuncio->endereco->numero}},{{$anuncio->endereco->bairro}}</td>
                     <td>{{ $anuncio->capacidade }}</td>
                     <td>{{ $anuncio->descricao }}</td>
                     <td>{{ $anuncio->usuario->id }}</td>

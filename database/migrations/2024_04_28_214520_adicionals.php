@@ -14,12 +14,9 @@ return new class extends Migration
         Schema::create('adicionals', function (Blueprint $table) {
             $table->id();
             $table->string('titulo', 120);
-            $table->foreignId('anuncio_id')->constrained()->onDelete('cascade');
-            $table->foreignId('categoria_id')->constrained()->onDelete('cascade');
             $table->string('descricao',200);
             $table->string('valor',4);
             $table->string('disponibilidade',50);
-            $table->string('status');
             $table->timestamps();
         });
     }

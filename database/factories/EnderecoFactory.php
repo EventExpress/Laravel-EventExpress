@@ -18,10 +18,10 @@ class EnderecoFactory extends Factory
     public function definition(): array
     {
         return [
-            'cidade' => fake()->city,
-            'cep' => fake()->postcode,
-            'numero' => fake()->buildingNumber,
-            'bairro' => fake()->streetName,
+            'cidade' => $this->faker->city,
+            'cep' => $this->faker->postcode,
+            'numero' => $this->faker->buildingNumber,
+            'bairro' => $this->faker->streetName,
         ];
     }
 }

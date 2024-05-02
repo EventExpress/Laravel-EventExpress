@@ -6,6 +6,7 @@ use App\Models\Adicional;
 use App\Models\Agendado;
 use App\Models\Nome;
 use App\Models\User;
+use App\Models\Anuncio;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Usuario;
 use Illuminate\Database\Seeder;
@@ -23,10 +24,10 @@ class DatabaseSeeder extends Seeder
         //    'name' => 'Test User',
         //   'email' => 'test@example.com',
         //]);
-
+        Anuncio::factory()->create();
         Usuario::factory()->create();
-        //Categoria::factory()->createOne();
-        //Agendado::factory()->createOne();
-        //Adicional::factory()->createOne();
+        //Categoria::factory()->create();
+        Agendado::factory()->create();
+        //Adicional::factory()->create();
     }
 }

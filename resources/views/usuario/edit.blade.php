@@ -80,6 +80,7 @@
 </div>
 
 
+
 <script>
     function OcultarCnpj(tipoUsu) {
         var cnpjDiv = document.getElementById("cnpjDiv");

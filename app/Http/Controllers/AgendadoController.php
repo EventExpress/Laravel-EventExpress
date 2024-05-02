@@ -2,118 +2,123 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Nome;
+
 use App\Models\Agendado;
-use App\Models\Adicional;
+//use App\Models\Adicional;
 use App\Models\Anuncio;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AgendadoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $agendado = Agendado::all();
-        return view('agendados.index',['agendado'=>$agendado]);   
+        return view('agendado.index', ['agendado' => $agendado]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostra o formulário para criar um novo agendado para um anúncio específico.
      */
-    public function create()
+    public function create($anuncioId)
     {
-        return view ('agendado.create');
+
+        $anuncio = Anuncio::find($anuncioId);
+
+        if (!$anuncio) {
+            return redirect()->route('anuncio.index')->with('error', 'Anúncio não encontrado.');
+        }
+
+        return view('agendado.create', ['anuncio' => $anuncio]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Armazena um novo agendado no banco de dados.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required',
-            'anuncio' => 'required',
-            'adicional'=>'required',
-            'status' => 'required'
+            'anuncio_id' => 'required',
+            'data_inicio' => 'required',
+            'data_fim' => 'required',
         ]);
 
-        $agendado = new Agendado();
-        $agendado->nome = $request->nome;
-        $agendado->anuncio = $request->anuncio;
-        $agendado->adicional = $request->adicional;
-        $agendado->status = $request->status;
+        $dataInicio = Carbon::parse($request->data_inicio)->toDateTimeString();
+        $dataFim = Carbon::parse($request->data_fim)->toDateTimeString();
 
+        $agendado = new Agendado();
+        $agendado->anuncio_id = $request->anuncio_id;
+        $agendado->data_inicio = $dataInicio;
+        $agendado->data_fim = $dataFim;
+        $agendado->confirmado = false; // Por padrão, novo agendado não está confirmado
         $agendado->save();
 
-        return redirect('/agendado');
-
+        return redirect('/anuncio');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(AgendadoController $agendado)
-    {
-                
-        $search = $request->input('search');
-        $agendado = Agendado::where('nome','like',"%$search%")->get();
+    public function show(Request $request)
+{
+    $search = $request->input('search');
 
-        return view('agendado.search', compact('agendado'));
 
-    }
+    $agendado = Agendado::whereHas('anuncio', function ($query) use ($search) {
+        $query->where('titulo', 'like', "%$search%");
+    })->get();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Request $request, $id)
-    {
-        $agendado = Agendado::findOrFail($id);
-        return view('agendado.edit',compact('agendado'));
-    }
-
+    return view('agendado.search', compact('agendado'));
+}
 
     /**
-     * Update the specified resource in storage.
+     * Mostra o formulário para editar um agendado existente.
      */
-    public function update(Request $request, $agendado)
+    public function edit($id)
     {
         $agendado = Agendado::find($id);
-    
+
         if (!$agendado) {
-            return redirect()->route('agendado.index')->with( 'Reserva não encontrada.');
+            return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
-    
-        $agendado->update($request->all());
-    
-        if ($request->has('anuncio_id')) {
-            $anuncio = Anuncio::find($request->input('anuncio_id'));
-            if ($anuncio) {
-                $anuncio->update(['agenda' => $request->input('agenda')]);
-            }
+
+        return view('agendado.edit', compact('agendado'));
+    }
+
+    /**
+     * Atualiza um agendado existente no banco de dados.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'data_inicio' => 'required',
+            'data_fim' => 'required',
+        ]);
+
+        $agendado = Agendado::find($id);
+
+        if (!$agendado) {
+            return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
-    
-        if ($request->has('adicional_id')) {
-            $adicional = Adicional::find($request->input('adicional_id'));
-            if ($adicional) {
-                $adicional->update(['adicional' => $request->input('adicional')]);
-            }
-        }
-    
+
+        $agendado->data_inicio = $request->data_inicio;
+        $agendado->data_fim = $request->data_fim;
+        $agendado->save();
+
         return redirect()->route('agendado.index')->with('Reserva atualizada com sucesso.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove um agendado do banco de dados.
      */
-    public function destroy(AgendadoController $agendado)
+    public function destroy($id)
     {
-        {
-            $agendado = Agendado::findOrFail($id);
-            $agendado->delete();
-    
-            return redirect()->route('agendado.index')->with('Reserva cancelada com sucesso.');
+        $agendado = Agendado::find($id);
+
+        if (!$agendado) {
+            return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
+
+        $agendado->delete();
+
+        return redirect()->route('agendado.index')->with('Reserva cancelada com sucesso.');
     }
 }

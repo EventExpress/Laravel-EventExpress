@@ -11,10 +11,10 @@ return new class extends Migration
     {
         Schema::create('agendados', function (Blueprint $table){
             $table->id();
-            $table->foreignId('nome_id')->constrained()->onDelete('cascade');
             $table->foreignId('anuncio_id')->constrained()->onDelete('cascade');
-            $table->foreignId('adicional_id')->constrained()->onDelete('cascade');
-            $table->string('status');
+            $table->dateTime('data_inicio');
+            $table->dateTime('data_fim');
+            $table->boolean('confirmado')->default(false);
             $table->timestamps();
         });
     }

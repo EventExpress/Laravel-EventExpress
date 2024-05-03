@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Adicional;
 use App\Models\Agendado;
+use App\Models\Categoria;
 use App\Models\Nome;
 use App\Models\User;
 use App\Models\Anuncio;
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
         Usuario::factory()->create();
         //Categoria::factory()->create();
         Agendado::factory()->create();
+        Categoria::factory()->create();
         //Adicional::factory()->create();
     }
 }

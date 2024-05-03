@@ -54,12 +54,13 @@ class AnuncioController extends Controller
             'cep' => 'required',
             'numero' => 'required',
             'bairro' => 'required',
-            'capacidade' => 'required',
-            'descricao' => 'required',
-            'valor' => 'required',
-            'agenda' => 'required',
+            'capacidade'=>'required',
+            'descricao'=>'required',
+            'valor'=>'required',
+            'agenda'=>'required',
             'categoriaId' => 'required',
         ]);
+        $usuarioId = $request->input('usuario_id');
 
         $endereco = new Endereco();
         $endereco->cidade = $request->cidade;
@@ -73,7 +74,7 @@ class AnuncioController extends Controller
         }
 
         $anuncio = new Anuncio();
-        $anuncio->usuario_id = $request->input('usuario_id');
+        $anuncio-> usuario_id =$usuarioId;
         $anuncio->titulo = $request->titulo;
         $anuncio->endereco_id = $endereco->id;
         $anuncio->capacidade = $request->capacidade;
@@ -85,9 +86,12 @@ class AnuncioController extends Controller
         $categoriaId = $request->categoriaId;
         $anuncio->categoria()->attach($categoriaId);
 
+        if (!$anuncio) {
+            return redirect('/anuncio')->with('error', 'Erro ao criar anúncio');
+        }
+
         return redirect('/anuncio');
     }
-
 
     /**
      * Display the specified resource.
@@ -171,17 +175,5 @@ class AnuncioController extends Controller
         $anuncio->delete();
         return redirect('/anuncio');
     }
-
-    public function adicionarCategoriaAoAnuncio($anuncioId, $categoriaId)
-    {
-        $anuncio = Anuncio::findOrFail($anuncioId);
-        $categoria = Categoria::findOrFail($categoriaId);
-
-        // Adicionar categoria ao anúncio
-        $anuncio->categoria()->associate($categoria)->save();
-
-        return "Categoria adicionada ao anúncio com sucesso!";
-    }
-
 
 }

@@ -25,7 +25,7 @@ class AgendadoController extends Controller
     {
 
         $anuncio = Anuncio::find($anuncioId);
-        $adicional = Adicional::all(); 
+        $adicional = Adicional::all();
         if (!$anuncio) {
             return redirect()->route('anuncio.index')->with('error', 'Anúncio não encontrado.');
         }
@@ -54,7 +54,9 @@ class AgendadoController extends Controller
         $agendado->data_fim = $dataFim;
         $agendado->confirmado = false; // Por padrão, novo agendado não está confirmado
         $agendado->save();
-        $agendado->adicional()->attach($request->adicionalId);
+        if($agendado->adicional() == null) {
+            $agendado->adicional()->attach($request->adicionalId);
+        };
 
         return redirect('/anuncio');
     }
@@ -77,7 +79,7 @@ class AgendadoController extends Controller
     public function edit($id)
     {
         $agendado = Agendado::find($id);
-        
+
         if (!$agendado) {
             return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
@@ -106,7 +108,7 @@ class AgendadoController extends Controller
         ]);
 
         $agendado = Agendado::find($id);
-        
+
         if (!$agendado) {
             return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }

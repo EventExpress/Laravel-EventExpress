@@ -38,7 +38,6 @@ test ('create adicional', function (){
         'titulo' => 'Decoração',
         'descricao' => 'Adicional para festa',
         'valor' => '99.88',
-        'disponibilidade' => 'Está disponível',
     ]);
     $this->post(route('adicional.create'),$adicional->toArray());
 
@@ -51,13 +50,11 @@ test ( 'update adicional ',function (){
         'titulo' => 'Decoração',
         'descricao' => 'Adicional para festa',
         'valor' => '99.88',
-        'disponibilidade' => 'Está disponível',
     ]);
     $adicional->update([
         'titulo' => 'Limpeza',
         'descricao' => 'Adicional para evento',
         'valor' => '88.99',
-        'disponibilidade' => 'Não está disponível',
     ]);
     $adicional->refresh();
 

@@ -13,10 +13,6 @@
             <input type="text" name="valor" id="valor" required>
         </div>
         <div>
-            <label for="disponibilidade">Disponibilidade:</label>
-            <input type="text" name="disponibilidade" id="disponibilidade" required>
-        </div>
-        <div>
             <input type="submit" value="Enviar">
         </div>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">

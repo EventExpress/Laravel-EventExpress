@@ -20,6 +20,7 @@
             <th>Data de Inicio</th>
             <th>Data do Fim</th>
             <th>Valor</th>
+            <th>Adicional</th>
             <th>Ações</th>
         </thead>
         <tbod>
@@ -34,6 +35,11 @@
                     <td>{{$agendados->data_inicio}}</td>
                     <td>{{$agendados->data_fim}}</td>
                     <td>{{$agendados->anuncio->valor}}</td>
+                    <td>
+                        @foreach($agendados->adicional as $adicional)
+                            {{ $adicional->titulo }} @if (!$loop->last), @endif
+                        @endforeach
+                    </td>
                     <td>
                         <a href="{{ url("agendado/$agendados->id/edit") }}">Editar</a>
                         <br>

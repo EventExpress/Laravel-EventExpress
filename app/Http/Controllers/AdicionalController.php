@@ -25,14 +25,12 @@ class AdicionalController extends Controller
             'titulo' => 'required',
             'descricao' => 'required',
             'valor' => 'required',
-            'disponibilidade' => 'required',
         ]);
 
         $adicional = new Adicional();
         $adicional->titulo = $request->titulo;
         $adicional->descricao = $request->descricao;
         $adicional->valor = $request->valor;
-        $adicional->disponibilidade = $request->disponibilidade;
         $adicional->save();
 
         return redirect()->route('adicional.index')->with('adicional criada com sucesso');
@@ -43,7 +41,6 @@ class AdicionalController extends Controller
         
         $adicional = Adicional::where('titulo','like',"%$search%")
             ->orWhere('valor','like',"%$search%")
-            ->orWhere('disponibilidade','like',"%$search%")
             ->get();
 
         return view('adicional.search', compact('adicional'));
@@ -61,7 +58,6 @@ class AdicionalController extends Controller
             'titulo' => 'required',
             'descricao' => 'required',
             'valor' => 'required',
-            'disponibilidade' => 'required',
         ]);
 
         $adicional = Adicional::find($id);
@@ -72,7 +68,6 @@ class AdicionalController extends Controller
         $adicional->titulo = $request->titulo;
         $adicional->descricao = $request->descricao;
         $adicional->valor = $request->valor;
-        $adicional->disponibilidade = $request->disponibilidade;
         $adicional->save();
 
         return redirect()->route('adicional.index')->with('Adicional atualizada com sucesso.');

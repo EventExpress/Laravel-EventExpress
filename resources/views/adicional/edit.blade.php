@@ -20,12 +20,6 @@
                 <input type="text" name="valor" id="valor" value="{{$adicional->valor}}" required>
             </label>
         </div>
-        <div>
-            <label>
-                <span>Disponibilidade:</span>
-                <input type="text" name="disponibilidade" id="disponibilidade" value="{{$adicional->disponibilidade}}" required>
-            </label>
-        </div>
             <input type="submit" value="Editar">
         </div>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">

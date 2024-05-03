@@ -13,10 +13,12 @@ class Adicional extends Model
         'titulo',
         'descricao',
         'valor',
-        'disponibilidade',
         
     ];
-
+    public function agendado()
+    {
+        return $this->belongsToMany(Agendado::class, 'agendado_adicional','adicional_id','agendado_id');
+    }
     /**public function anuncio() {
         return $this->belongsTo(Anuncio::class);
     }*/

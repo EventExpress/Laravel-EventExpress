@@ -19,7 +19,6 @@
             <th>Nome do adicional</th>
             <th>Descrição</th>
             <th>Valor</th>
-            <th>Disponibilidade</th>
             <th>Ações</th>
             </thead>
             <tbod>
@@ -29,7 +28,6 @@
                         <td>{{$adicionais->titulo}}</td>
                         <td>{{$adicionais->descricao}}</td>
                         <td>{{$adicionais->valor}}</td>
-                        <td>{{$adicionais->disponibilidade}}</td>
                         <td>
                             <a href="{{ url("adicional/$adicionais->id/edit") }}">Editar</a>
                             <br>

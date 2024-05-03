@@ -17,7 +17,6 @@ class AdicionalFactory extends Factory
             'titulo' => fake()->randomElement(['Decoração', 'Limpeza']),
             'descricao'=> fake()->randomElement(['Adicional para festa', 'Adicional para evento']),
             'valor' => fake()->numerify('##.##'),
-            'disponibilidade' => fake()->randomElement(['Está disponível', 'Não está disponível']),
         ];
     }
 }

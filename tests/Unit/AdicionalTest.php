@@ -11,7 +11,6 @@ test("Teste criar Adicional", function () {
         'titulo' => 'Decoração',
         'descricao' => 'Adicional para festa',
         'valor' => '99.88',
-        'disponibilidade' => 'Está disponível',
     ]);
 
     $this->assertDatabaseHas(
@@ -19,7 +18,6 @@ test("Teste criar Adicional", function () {
         'titulo' => 'Decoração',
         'descricao' => 'Adicional para festa',
         'valor' => '99.88',
-        'disponibilidade' => 'Está disponível',
     ]);
 });
 
@@ -28,21 +26,18 @@ test("Teste atualizar Adicional", function () {
         'titulo' => 'Decoração',
         'descricao' => 'Adicional para festa',
         'valor' => '99.88',
-        'disponibilidade' => 'Está disponível',
     ]);
 
     $adicional->update([
         'titulo' => 'Limpeza',
         'descricao' => 'Adicional para evento',
         'valor' => '88.99',
-        'disponibilidade' => 'Não está disponível',
     ]);
 
     $this->assertDatabaseHas('adicionals', [
         'titulo' => 'Limpeza',
         'descricao' => 'Adicional para evento',
         'valor' => '88.99',
-        'disponibilidade' => 'Não está disponível',
     ]);
 });
 
@@ -51,7 +46,6 @@ test("Teste deletar Adicional", function () {
         'titulo' => 'Decoração',
         'descricao' => 'Adicional para festa',
         'valor' => '99.88',
-        'disponibilidade' => 'Está disponível',
     ]);
 
     $adicional->delete();
@@ -60,6 +54,5 @@ test("Teste deletar Adicional", function () {
         'titulo' => 'Decoração',
         'descricao' => 'Adicional para festa',
         'valor' => '99.88',
-        'disponibilidade' => 'Está disponível',
     ]);
 });

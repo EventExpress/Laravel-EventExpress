@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('titulo', 120);
             $table->string('descricao',200);
             $table->string('valor',4);
-            $table->string('disponibilidade',50);
             $table->timestamps();
         });
     }

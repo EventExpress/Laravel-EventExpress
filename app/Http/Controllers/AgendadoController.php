@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Agendado;
-//use App\Models\Adicional;
+use App\Models\Adicional;
 use App\Models\Anuncio;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -25,12 +25,12 @@ class AgendadoController extends Controller
     {
 
         $anuncio = Anuncio::find($anuncioId);
-
+        $adicional = Adicional::all(); 
         if (!$anuncio) {
             return redirect()->route('anuncio.index')->with('error', 'Anúncio não encontrado.');
         }
 
-        return view('agendado.create', ['anuncio' => $anuncio]);
+        return view('agendado.create', ['anuncio' => $anuncio, 'adicional' => $adicional]);
     }
 
     /**
@@ -42,6 +42,7 @@ class AgendadoController extends Controller
             'anuncio_id' => 'required',
             'data_inicio' => 'required',
             'data_fim' => 'required',
+            'adicionalId' => 'nullable',
         ]);
 
         $dataInicio = Carbon::parse($request->data_inicio)->toDateTimeString();
@@ -53,6 +54,7 @@ class AgendadoController extends Controller
         $agendado->data_fim = $dataFim;
         $agendado->confirmado = false; // Por padrão, novo agendado não está confirmado
         $agendado->save();
+        $agendado->adicional()->attach($request->adicionalId);
 
         return redirect('/anuncio');
     }
@@ -75,11 +77,20 @@ class AgendadoController extends Controller
     public function edit($id)
     {
         $agendado = Agendado::find($id);
-
+        
         if (!$agendado) {
             return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
+        $adicional = Adicional::all();
 
+        // Obter os IDs dos adicionais associados ao agendamento
+        $adicionaisSelecionados = $agendado->adicional->pluck('id')->toArray();
+
+        return view('agendado.edit', [
+        'agendado' => $agendado,
+        'adicional' => $adicional,
+        'adicionaisSelecionados' => $adicionaisSelecionados,
+    ]);
         return view('agendado.edit', compact('agendado'));
     }
 
@@ -91,17 +102,20 @@ class AgendadoController extends Controller
         $request->validate([
             'data_inicio' => 'required',
             'data_fim' => 'required',
+            'adicionalId' => 'nullable',
         ]);
 
         $agendado = Agendado::find($id);
-
+        
         if (!$agendado) {
             return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
 
         $agendado->data_inicio = $request->data_inicio;
         $agendado->data_fim = $request->data_fim;
+        $adicionalId = $request->adicionalId;
         $agendado->save();
+        $agendado->adicional()->sync($request->adicionalId);
 
         return redirect()->route('agendado.index')->with('Reserva atualizada com sucesso.');
     }

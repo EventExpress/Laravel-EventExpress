@@ -1,6 +1,7 @@
 <div>
     <h1>Lista de Adicionais</h1>
     <div>
+        <a href="/">Home</a><br><br>
         <a href="/adicional/create">Cadastrar Novo Adicional</a>
     </div>
     <br>
@@ -21,7 +22,7 @@
             @foreach($adicional as $adicionais)
                 <tr>
                     <td>{{$adicionais->id}}</td>
-                    <td>{{$adicionais->tiulo}}</td>
+                    <td>{{$adicionais->titulo}}</td>
                     <td>{{$adicionais->descricao}}</td>
                     <td>{{$adicionais->valor}}</td>
                     <td>{{$adicionais->disponibilidade}}</td>

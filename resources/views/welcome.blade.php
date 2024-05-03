@@ -27,6 +27,10 @@
     <br>
     <a href="/categoria">Cadastrar Categoria</a>
 </div>
+<div>
+    <br>
+    <a href="/adicional">Cadastrar Adicional</a>
+</div>
 
 </body>
 </html>

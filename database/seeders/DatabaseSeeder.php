@@ -28,6 +28,6 @@ class DatabaseSeeder extends Seeder
         Usuario::factory()->create();
         //Categoria::factory()->create();
         Agendado::factory()->create();
-        //Adicional::factory()->create();
+        Adicional::factory()->create();
     }
 }

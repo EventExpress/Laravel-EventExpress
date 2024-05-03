@@ -39,12 +39,12 @@
             <input type="date" name="agenda" id="agenda" required>
         </div>
         <div>
-            <label for="categoriaId">Selecione uma categoria:</label>
-            <select id="categoriaId" name="categoriaId">
-                <option value="1">Infantil</option>
-                <option value="2">Categoria 2</option>
-                <option value="3">Categoria 3</option>
-            </select>
+            <label for="categoriaId">Escolher categoria</label>
+                <select name="categorialId[]" id="categorialId">
+                @foreach($categoria as $categorias)
+                    <option value="{{ $categorias->id }}">{{ $categorias->titulo }} - Descrição: {{ $categorias->descricao }}</option>
+                @endforeach
+                </select>
         </div>
         <div>
             <input type="hidden" name="usuario_id" value="{{ $usuario->id }}">

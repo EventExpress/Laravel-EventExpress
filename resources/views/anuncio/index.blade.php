@@ -17,6 +17,7 @@
         <th>Descrição</th>
         <th>locador</th>
         <th>Valor</th>
+        <th>Categoria</th>
         <th>Ações</th>
         </thead>
         <tbody>
@@ -29,6 +30,11 @@
                 <td>{{$anuncios->descricao}}</td>
                 <td>{{$anuncios->usuario->nome->nome}}</td>
                 <td>{{$anuncios->valor}}</td>
+                <td>
+                        @foreach($anuncios->categoria as $categoria)
+                            {{ $categoria->titulo }} @if (!$loop->last), @endif
+                        @endforeach
+                    </td>
                 <td>
                     <a href="{{url("anuncio/$anuncios->id/edit")}}">Editar</a>
                     <br>

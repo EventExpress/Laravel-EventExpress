@@ -28,12 +28,13 @@ class AnuncioController extends Controller
     {
         $usuarioId = $usuarios;
         $usuario = $this->buscaUsuario($usuarioId);
+        $categoria = Categoria::all();
 
         if ($this->verificaLocador($usuarioId)) {
             return redirect('/')->with('error', 'Você não tem permissão para criar anúncios.');
         }
 
-        return view('anuncio.create', ['usuario' => $usuario]);
+        return view('anuncio.create', ['usuario' => $usuario, 'categoria' => $categoria]);
     }
     public function verificaLocador($usuarioId)
     {
@@ -58,7 +59,7 @@ class AnuncioController extends Controller
             'descricao'=>'required',
             'valor'=>'required',
             'agenda'=>'required',
-            'categoriaId' => 'required',
+            'categoriaId' => 'nullable',
         ]);
         $usuarioId = $request->input('usuario_id');
 
@@ -82,10 +83,10 @@ class AnuncioController extends Controller
         $anuncio->valor = $request->valor;
         $anuncio->agenda = $request->agenda;
         $anuncio->save();
-
-        $categoriaId = $request->categoriaId;
+        $anuncio->categoria()->attach($request->categorialId);
+        /**$categoriaId = $request->categoriaId;
         $anuncio->categoria()->attach($categoriaId);
-
+        */
         if (!$anuncio) {
             return redirect('/anuncio')->with('error', 'Erro ao criar anúncio');
         }

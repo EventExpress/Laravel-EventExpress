@@ -23,9 +23,10 @@ class Anuncio extends Model
         return $this->belongsTo(Endereco::class);
     }
 
-    /**public function categorias(){
-        return $this->belongsToMany(Categoria::class,'anuncio_categoria','anuncio_id','categoria_id');
-    }*/
+    public function categoria()
+    {
+        return $this->belongsToMany(Categoria::class, 'anuncio_categoria', 'anuncio_id', 'categoria_id');
+    }
 
     public function usuario() {
         return $this->belongsTo(Usuario::class);
@@ -37,6 +38,6 @@ class Anuncio extends Model
 
     public function agendados()
     {
-        return $this->hasMany(Agendados::class);
+        return $this->hasMany(Agendado::class);
     }
 }

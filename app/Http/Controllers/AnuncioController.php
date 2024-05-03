@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Endereco;
 use App\Models\Usuario;
 use App\Models\Anuncio;
@@ -57,10 +58,9 @@ class AnuncioController extends Controller
             'descricao'=>'required',
             'valor'=>'required',
             'agenda'=>'required',
+            'categoriaId' => 'required',
         ]);
         $usuarioId = $request->input('usuario_id');
-
-
 
         $endereco = new Endereco();
         $endereco->cidade = $request->cidade;
@@ -82,6 +82,9 @@ class AnuncioController extends Controller
         $anuncio->valor = $request->valor;
         $anuncio->agenda = $request->agenda;
         $anuncio->save();
+
+        $categoriaId = $request->categoriaId;
+        $anuncio->categoria()->attach($categoriaId);
 
         if (!$anuncio) {
             return redirect('/anuncio')->with('error', 'Erro ao criar anúncio');
@@ -163,7 +166,6 @@ class AnuncioController extends Controller
         return redirect()->route('anuncio.index')->with('success', 'Anúncio atualizado com sucesso.');
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
@@ -173,4 +175,5 @@ class AnuncioController extends Controller
         $anuncio->delete();
         return redirect('/anuncio');
     }
+
 }

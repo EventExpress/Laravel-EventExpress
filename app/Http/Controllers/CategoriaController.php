@@ -28,7 +28,7 @@ class CategoriaController extends Controller
             'titulo'=>$request->titulo,
             'descricao'=>$request->descricao
         ]);
-        
+
 
         return redirect()->route('categoria.index')->with('categoria criada com sucesso');
     }

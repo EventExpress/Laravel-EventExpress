@@ -10,7 +10,8 @@ class Categoria extends Model
     use HasFactory;
     protected $fillable=['titulo', 'descricao'];
 
-    /**public function anuncios(){
-        return $this->belongsToMany(Anuncio::class,'anuncio_categoria','categoria_id', 'anuncio_id');
-    }*/
+    public function anuncio()
+    {
+        return $this->belongsToMany(Anuncio::class, 'anuncio_categoria', 'categoria_id', 'anuncio_id');
+    }
 }

@@ -50,16 +50,16 @@ class AnuncioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'titulo' => 'required',
-            'cidade' => 'required',
-            'cep' => 'required',
-            'numero' => 'required',
-            'bairro' => 'required',
-            'capacidade'=>'required',
-            'descricao'=>'required',
-            'valor'=>'required',
-            'agenda'=>'required',
-            'categoriaId' => 'nullable',
+            'titulo' => 'required|string|min:4|max:255',
+            'cidade' => 'required|string|min:3|max:255',
+            'cep' => 'required|string|min:8|max:9',
+            'numero' => 'required|integer|min:1',
+            'bairro' => 'required|string|min:3|max:255',
+            'capacidade' => 'required|integer|min:1|max:10000',
+            'descricao' => 'required|string|min:10|max:2000',
+            'valor' => 'required|numeric|min:0',
+            'agenda' => 'required|date',
+            'categoriaId' => 'required',
         ]);
         $usuarioId = $request->input('usuario_id');
 
@@ -135,15 +135,15 @@ class AnuncioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validação dos dados do formulário
+        // validação dos dados do formulário
         $request->validate([
-            'titulo' => 'required',
-            'cidade' => 'required',
-            'cep' => 'required',
-            'numero' => 'required',
-            'bairro' => 'required',
-            'capacidade' => 'required',
-            'descricao' => 'required',
+            'titulo' => 'required|string|min:4|max:255',
+            'cidade' => 'required|string|min:3|max:255',
+            'cep' => 'required|string|min:8|max:9',
+            'numero' => 'required|integer|min:1',
+            'bairro' => 'required|string|min:3|max:255',
+            'capacidade' => 'required|integer|min:1|max:10000',
+            'descricao' => 'required|string|min:10|max:2000',
         ]);
 
         $anuncio = Anuncio::find($id);
@@ -174,6 +174,7 @@ class AnuncioController extends Controller
     {
         $anuncio = Anuncio::find($id);
         $anuncio->delete();
+        $anuncio->endereco()->delete();
         return redirect('/anuncio');
     }
 

@@ -13,7 +13,7 @@ class EnderecoController extends Controller
     public function index()
     {
         $endereco = Endereco::all();
-        return view('endereco.index',['endereco'=>$endereco]);   
+        return view('endereco.index',['endereco'=>$endereco]);
     }
 
     /**
@@ -30,10 +30,10 @@ class EnderecoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cidade' => 'required',
-            'cep'=> 'required',
-            'numero'=>'required',
-            'bairro'=>'required'
+            'cidade' => 'required|string|min:3|max:255',
+            'cep' => 'required|string|min:8|max:9',
+            'numero' => 'required|integer|min:1',
+            'bairro' => 'required|string|min:3|max:255'
         ]);
 
         $endereco = new Endereco();
@@ -60,7 +60,7 @@ class EnderecoController extends Controller
                            ->orWhere('numero', 'like', "%$search%")
                            ->orWhere('bairro', 'like', "%$search%")
                            ->get();
-    
+
         return view('endereco.searchendereco', compact('results'));
     }
 
@@ -80,15 +80,22 @@ class EnderecoController extends Controller
     {
         $endereco = Endereco::find($id);
 
+        $request->validate([
+            'cidade' => 'required|string|min:3|max:255',
+            'cep' => 'required|string|min:8|max:9',
+            'numero' => 'required|integer|min:1',
+            'bairro' => 'required|string|min:3|max:255'
+        ]);
+
         if (!$endereco) {
             return redirect()->route('endereco.index')->with('error', 'Endereço não encontrado.');
         }
-    
+
         $endereco->update($request->all());
         if ($request->has('nome')) {
             $endereco->update(['nome' => $request->input('nome')]);
         }
-    
+
         return redirect()->route('endereco.index')->with('success', 'Endereço atualizado com sucesso.');
     }
 
@@ -106,5 +113,5 @@ class EnderecoController extends Controller
             return redirect()->route('endereco.index')->with('error', 'Endereço não encontrado.');
         }
     }
-    
+
 }

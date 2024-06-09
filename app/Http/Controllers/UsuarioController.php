@@ -37,7 +37,7 @@ class UsuarioController extends Controller
             'datanasc' => 'required|date',
             'email' => 'required|email|min:5|max:255',
             'tipousu' => 'required|string|min:3|max:50',
-            'cpf' => 'required|integer|min:11',
+            'cpf' => 'required|string|size:11',
             'cnpj' => $request->tipousu === 'Locador' ? 'required|string|min:14|max:14' : 'nullable',
             'cidade' => 'required|string|min:3|max:255',
             'cep' => 'required|string|min:8|max:9',
@@ -68,6 +68,7 @@ class UsuarioController extends Controller
         $usuario->save();
 
         return redirect('/usuario')->with('success', 'Jogador criado com sucesso!');
+
     }
 
     /**
@@ -114,7 +115,7 @@ class UsuarioController extends Controller
             'datanasc' => 'required|date',
             'email' => 'required|email|min:5|max:255',
             'tipousu' => 'required|string|min:3|max:50',
-            'cpf' => 'required|integer|min:11',
+            'cpf' => 'required|string|size:11',
             'cnpj' => $request->tipousu === 'Locador' ? 'required|string|min:14|max:14' : 'nullable',
             'cidade' => 'required|string|min:3|max:255',
             'cep' => 'required|string|min:8|max:9',

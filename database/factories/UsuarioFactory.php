@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Endereco;
 use App\Models\Nome;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,6 +17,7 @@ class UsuarioFactory extends Factory
     protected $model = Usuario::class;
     public function definition(): array
     {
+        $endereco = Endereco::factory()->create();
         $nome = Nome::factory()->create();
         return [
             'nome_id' => $nome->id,
@@ -25,7 +27,7 @@ class UsuarioFactory extends Factory
             'tipousu' => $this->faker->randomElement(['Cliente', 'Locador']),
             'cpf' => $this->faker->numerify('###.###.###-##'),
             'cnpj' => $this->faker->numerify('##.###.###/####-##'),
-            'endereco' => $this->faker->address,
+            'endereco_id' => $endereco->id,
         ];
     }
 }

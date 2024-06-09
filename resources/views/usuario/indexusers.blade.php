@@ -1,6 +1,7 @@
 <div>
     <h1>Lista de Usuarios</h1>
     <div>
+        <a href="/">Home</a><br><br>
         <a href="/usuario/create">Cadastrar Novo usuario</a>
     </div>
     <br>
@@ -27,7 +28,7 @@
                     <td>{{$usuarios->telefone}}</td>
                     <td>{{$usuarios->cpf}}</td>
                     <td>{{$usuarios->tipousu}}</td>
-                    <td>{{$usuarios->endereco}}</td>
+                    <td>{{$usuarios->endereco->cidade}}, CEP:{{$usuarios->endereco->cep}}, Numero :{{$usuarios->endereco->numero}},{{$usuarios->endereco->bairro}}</td>
                     <td>{{$usuarios->datanasc}}</td>
                     <td>
                         <a href="{{url("usuario/$usuarios->id/edit")}}">Editar</a>
@@ -38,6 +39,10 @@
                             <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o usuario {{$usuarios->nome->nome}} ?')"> Excluir</button>
 
                         </form>
+                        @if($usuarios->tipousu === 'Locador')
+                            <a href="{{ route('anuncio.create', ['usuario' => $usuarios->id]) }}">Criar anúncio</a>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach

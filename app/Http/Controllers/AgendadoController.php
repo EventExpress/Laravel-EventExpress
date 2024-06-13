@@ -42,7 +42,7 @@ class AgendadoController extends Controller
             'anuncio_id' => 'required',
             'data_inicio' => 'required',
             'data_fim' => 'required',
-            'adicionalId' => 'nullable',
+            'adicionalId' => 'nullable|array',
         ]);
 
         $dataInicio = Carbon::parse($request->data_inicio)->toDateTimeString();
@@ -54,9 +54,16 @@ class AgendadoController extends Controller
         $agendado->data_fim = $dataFim;
         $agendado->confirmado = false; // Por padrão, novo agendado não está confirmado
         $agendado->save();
-        if($agendado->adicional() == null) {
-            $agendado->adicional()->attach($request->adicionalId);
-        };
+        if ($request->has('adicionalId') && is_array($request->adicionalId)) {
+            // Filtra os IDs válidos para evitar valores nulos ou inválidos
+            $validAdicionalIds = array_filter($request->adicionalId, function ($id) {
+                return !is_null($id) && is_numeric($id);
+            });
+    
+            if (!empty($validAdicionalIds)) {
+                $agendado->adicional()->attach($validAdicionalIds);
+            }
+        }
 
         return redirect('/anuncio');
     }
@@ -104,7 +111,7 @@ class AgendadoController extends Controller
         $request->validate([
             'data_inicio' => 'required',
             'data_fim' => 'required',
-            'adicionalId' => 'nullable',
+            'adicionalId' => 'nullable|array',
         ]);
 
         $agendado = Agendado::find($id);
@@ -117,7 +124,19 @@ class AgendadoController extends Controller
         $agendado->data_fim = $request->data_fim;
         $adicionalId = $request->adicionalId;
         $agendado->save();
-        $agendado->adicional()->sync($request->adicionalId);
+        if ($request->has('adicionalId') && is_array($request->adicionalId)) {
+            // Filtra os IDs válidos para evitar valores nulos ou inválidos
+            $validAdicionalIds = array_filter($request->adicionalId, function ($id) {
+                return !is_null($id) && is_numeric($id);
+            });
+    
+            $agendado->adicional()->sync($validAdicionalIds);
+        } else {
+            // Se não houver adicionais, desanexa todos
+            $agendado->adicional()->detach();
+        }
+        
+        //$agendado->adicional()->sync($request->adicionalId);
 
         return redirect()->route('agendado.index')->with('Reserva atualizada com sucesso.');
     }

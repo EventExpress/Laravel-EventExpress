@@ -12,8 +12,9 @@
             <input type="datetime-local" class="form-control" id="data_fim" name="data_fim" value="{{ old('data_fim', $agendado->data_fim) }}" required>
         </div>
         <div class="form-group">
-            <label for="adicionalId">Escolher adicionais</label>
+            <label for="adicionalId">Escolher adicional: </label>
             <select name="adicionalId[]" id="adicionalId" multiple>
+            <option value="">Nenhum adicional</option>
             @foreach($adicional as $adicionais)
                 <option value="{{ $adicionais->id }}" @if(in_array($adicionais->id, $adicionaisSelecionados)) selected @endif>{{ $adicionais->titulo }} - R$ {{ $adicionais->valor }}</option>
             @endforeach

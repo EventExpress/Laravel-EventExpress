@@ -10,7 +10,7 @@
         <div class="form-group">
             <label for="data_fim">Data de Fim:</label>
             <input type="datetime-local" class="form-control" id="data_fim" name="data_fim" value="{{ old('data_fim', $agendado->data_fim) }}" required>
-        </div>
+        </div> 
         <div class="form-group">
             <label for="adicionalId">Escolher adicional: </label>
             <select name="adicionalId[]" id="adicionalId" multiple>
@@ -19,7 +19,7 @@
                 <option value="{{ $adicionais->id }}" @if(in_array($adicionais->id, $adicionaisSelecionados)) selected @endif>{{ $adicionais->titulo }} - R$ {{ $adicionais->valor }}</option>
             @endforeach
             </select>
-</div>
+        </div>
 
         <button type="submit" class="btn btn-primary">Salvar Alterações</button>
     </form>

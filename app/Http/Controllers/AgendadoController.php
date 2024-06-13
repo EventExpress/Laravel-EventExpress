@@ -99,8 +99,7 @@ class AgendadoController extends Controller
         'agendado' => $agendado,
         'adicional' => $adicional,
         'adicionaisSelecionados' => $adicionaisSelecionados,
-    ]);
-        return view('agendado.edit', compact('agendado'));
+        ]);
     }
 
     /**

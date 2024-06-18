@@ -22,9 +22,9 @@ class AdicionalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descricao' => 'required|string|max:1000',
-            'valor' => 'required|numeric|min:0',
+            'titulo' => 'required',
+            'descricao' => 'required',
+            'valor' => 'required',
         ]);
 
         $adicional = new Adicional();
@@ -38,7 +38,7 @@ class AdicionalController extends Controller
     public function show(Request $request){
 
         $search = $request->input('search');
-
+        
         $adicional = Adicional::where('titulo','like',"%$search%")
             ->orWhere('valor','like',"%$search%")
             ->get();
@@ -55,9 +55,9 @@ class AdicionalController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descricao' => 'required|string|max:1000',
-            'valor' => 'required|numeric|min:0',
+            'titulo' => 'required',
+            'descricao' => 'required',
+            'valor' => 'required',
         ]);
 
         $adicional = Adicional::find($id);

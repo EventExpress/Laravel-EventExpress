@@ -59,7 +59,7 @@ class AnuncioController extends Controller
             'descricao' => 'required|string|min:10|max:2000',
             'valor' => 'required|numeric|min:0',
             'agenda' => 'required|date',
-            'categoriaId' => 'required',
+            'categoriaId' => 'required|array',
         ]);
         $usuarioId = $request->input('usuario_id');
 
@@ -83,7 +83,7 @@ class AnuncioController extends Controller
         $anuncio->valor = $request->valor;
         $anuncio->agenda = $request->agenda;
         $anuncio->save();
-        $anuncio->categoria()->attach($request->categorialId);
+        $anuncio->categoria()->attach($request->categoriaId);
         /**$categoriaId = $request->categoriaId;
         $anuncio->categoria()->attach($categoriaId);
         */
@@ -127,7 +127,16 @@ class AnuncioController extends Controller
     public function edit($id)
     {
         $anuncio = Anuncio::find($id);
-        return view('anuncio.editaanuncio', compact('anuncio'));
+
+        $categoria = Categoria::all();
+
+        $categoriaSelecionada = $anuncio->categoria->pluck('id')->toArray();
+
+        return view('anuncio.editaanuncio', [
+        'anuncio' => $anuncio,
+        'categoria' => $categoria,
+        'categoriaSelecionada' => $categoriaSelecionada,
+        ]);
     }
 
     /**
@@ -144,6 +153,7 @@ class AnuncioController extends Controller
             'bairro' => 'required|string|min:3|max:255',
             'capacidade' => 'required|integer|min:1|max:10000',
             'descricao' => 'required|string|min:10|max:2000',
+            'categoriaId' => 'required|array'
         ]);
 
         $anuncio = Anuncio::find($id);
@@ -157,6 +167,8 @@ class AnuncioController extends Controller
             'capacidade' => $request->capacidade,
             'descricao' => $request->descricao,
         ]);
+        $anuncio->categoria()->sync($request->categoriaId);
+
         $endereco = Endereco::find($anuncio->endereco_id);
 
         $endereco->update(['cidade' => $request->input('cidade')]);

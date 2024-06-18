@@ -1,10 +1,4 @@
 <div>
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <h1>Lista de Usuarios</h1>
     <div>
         <a href="/">Home</a><br><br>

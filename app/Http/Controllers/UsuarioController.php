@@ -36,8 +36,9 @@ class UsuarioController extends Controller
             'telefone' => 'required|string|min:10|max:15',
             'datanasc' => 'required|date',
             'email' => 'required|email|min:5|max:255',
+            'password' => 'required|string|min:8|max:255',
             'tipousu' => 'required|string|min:3|max:50',
-            'cpf' => 'required|string|size:11',
+            'cpf' => 'required|integer|min:11',
             'cnpj' => $request->tipousu === 'Locador' ? 'required|string|min:14|max:14' : 'nullable',
             'cidade' => 'required|string|min:3|max:255',
             'cep' => 'required|string|min:8|max:9',
@@ -65,10 +66,10 @@ class UsuarioController extends Controller
         $usuario->cpf = $request->cpf;
         $usuario->cnpj = $request->cnpj;
         $usuario->endereco_id = $endereco->id;
+        $usuario->password = Hash::make($request['password']);
         $usuario->save();
 
         return redirect('/usuario')->with('success', 'Jogador criado com sucesso!');
-
     }
 
     /**
@@ -105,17 +106,13 @@ class UsuarioController extends Controller
     {
         $usuario = Usuario::find($id);
 
-        if (!$usuario) {
-            return redirect()->route('usuario.index')->with('Usuário não encontrado.');
-        }
-
         $request->validate([
             'nome' => 'required|string|min:4|max:255',
             'telefone' => 'required|string|min:10|max:15',
             'datanasc' => 'required|date',
             'email' => 'required|email|min:5|max:255',
             'tipousu' => 'required|string|min:3|max:50',
-            'cpf' => 'required|string|size:11',
+            'cpf' => 'required|integer|min:11',
             'cnpj' => $request->tipousu === 'Locador' ? 'required|string|min:14|max:14' : 'nullable',
             'cidade' => 'required|string|min:3|max:255',
             'cep' => 'required|string|min:8|max:9',

@@ -3,12 +3,37 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
-    use HasFactory;
-    protected $fillable=['nome_id','telefone','email','datanasc','tipousu','cpf','cnpj','endereco_id'];
+
+    use HasFactory, Notifiable;
+
+    protected $table = 'usuarios';
+    protected $fillable=[
+        'nome_id',
+        'telefone',
+        'email',
+        'password',
+        'remember_token',
+        'datanasc',
+        'tipousu',
+        'cpf',
+        'cnpj',
+        'endereco_id'
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
     public function nome() {
         return $this->belongsTo(Nome::class);

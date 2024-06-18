@@ -66,6 +66,14 @@
                 @enderror
             </label>
         </div>
+        <div class="form-group">
+            <label for="categoriaId">Trocar categoria: </label>
+            <select name="categoriaId[]" id="categoriaId" multiple>
+            @foreach($categoria as $categorias)
+                <option value="{{ $categorias->id }}" @if(in_array($categorias->id, $categoriaSelecionada)) selected @endif>{{ $categorias->titulo }} - Descrição : {{ $categorias->descricao }}</option>
+            @endforeach
+            </select>
+        </div>
         <div>
             <input type="submit" value="Editar">
         </div>

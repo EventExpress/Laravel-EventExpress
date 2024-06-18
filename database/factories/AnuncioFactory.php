@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Categoria;
 use App\Models\Anuncio;
 use App\Models\Usuario;
 use App\Models\Endereco;
@@ -24,6 +25,7 @@ class AnuncioFactory extends Factory
     {
         $endereco = Endereco::factory()->create();
         $usuario = Usuario::factory()->create();
+        //$categoria = Categoria::factory()->create();
 
         return [
             'titulo'=> $this->faker->sentence,
@@ -34,5 +36,12 @@ class AnuncioFactory extends Factory
             'valor'=> $this->faker->randomFloat(2, 10, 1000),
             'agenda' => $this->faker->dateTimeBetween('-80 years', '-18 years')->format('Y-m-d'),
         ];
+    }
+    public function configure()
+    {
+        return $this->afterCreating(function (Anuncio $anuncio) {
+            $categoria = Categoria::factory()->create(); 
+            $anuncio->categoria()->attach($categoria->id); 
+        });
     }
 }

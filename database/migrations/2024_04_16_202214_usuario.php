@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Nome;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,15 +12,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->foreignId('nome_id')->constrained()->onDelete('cascade');
+            $table->string('telefone',12);
+            $table->string('email',120);
             $table->string('password');
             $table->rememberToken();
+            $table->date('datanasc');
+            $table->string('tipousu',50);
+            $table->string('cpf',11);
+            $table->string('cnpj',14)->nullable();
+            $table->foreignId('endereco_id')->constrained()->onDelete('cascade');
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
+        //obs: devido a classe nome ser um fk do id usuario achei (Guilherme) melhor unificar o cadastro dos 2 diferenciando atravez do tipo de usuario.
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
@@ -42,7 +50,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('usuarios');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }

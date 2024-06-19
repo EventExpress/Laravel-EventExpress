@@ -40,7 +40,10 @@
 
         <div>
             <x-input-label for="tipousu" :value="__('Tipo de Usuário')" />
-            <x-text-input id="tipousu" name="tipousu" type="text" class="mt-1 block w-full" :value="old('tipousu', $user->tipousu)" required />
+            <select id="tipousu" name="tipousu" required onchange="OcultarCnpj(this.value)" class="mt-1 block w-full">
+                <option value="Cliente" {{ old('tipousu', $user->tipousu) == 'Cliente' ? 'selected' : '' }}>Cliente</option>
+                <option value="Locador" {{ old('tipousu', $user->tipousu) == 'Locador' ? 'selected' : '' }}>Locador</option>
+            </select>
             <x-input-error class="mt-2" :messages="$errors->get('tipousu')" />
         </div>
 
@@ -50,13 +53,11 @@
             <x-input-error class="mt-2" :messages="$errors->get('cpf')" />
         </div>
 
-        @if ($user->tipousu === 'Locador')
-            <div>
-                <x-input-label for="cnpj" :value="__('CNPJ')" />
-                <x-text-input id="cnpj" name="cnpj" type="text" class="mt-1 block w-full" :value="old('cnpj', $user->cnpj)" required />
-                <x-input-error class="mt-2" :messages="$errors->get('cnpj')" />
-            </div>
-        @endif
+        <div id="cnpjField" style="display: {{ old('tipousu', $user->tipousu) === 'Locador' ? 'block' : 'none' }}">
+            <x-input-label for="cnpj" :value="__('CNPJ')" />
+            <x-text-input id="cnpj" name="cnpj" type="text" class="mt-1 block w-full" :value="old('cnpj', $user->cnpj)" />
+            <x-input-error class="mt-2" :messages="$errors->get('cnpj')" />
+        </div>
 
         <div>
             <x-input-label for="cidade" :value="__('Cidade')" />
@@ -96,4 +97,16 @@
             @endif
         </div>
     </form>
+    <script>
+        function OcultarCnpj(tipoUsu) {
+            var cnpjField = document.getElementById("cnpjField");
+            var cnpjInput = document.getElementById("cnpj");
+            if (tipoUsu === "Locador") {
+                cnpjField.style.display = "block";
+            } else {
+                cnpjField.style.display = "none";
+                cnpjInput.value = "";
+            }
+        }
+    </script>
 </section>

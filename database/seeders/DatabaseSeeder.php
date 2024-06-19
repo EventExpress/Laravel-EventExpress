@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
         //    'name' => 'Test User',
         //   'email' => 'test@example.com',
         //]);
-        Anuncio::factory()->create();
-        Usuario::factory()->create();
-        //Categoria::factory()->create();
-        Agendado::factory()->create();
+        //Anuncio::factory()->create();
+        //Usuario::factory()->create();
+        Categoria::factory()->create();
+        //Agendado::factory()->create();
         Adicional::factory()->create();
     }
 }

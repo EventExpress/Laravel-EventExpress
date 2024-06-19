@@ -7,6 +7,7 @@ use App\Models\Endereco;
 use App\Models\Usuario;
 use App\Models\Anuncio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnuncioController extends Controller
 {
@@ -19,33 +20,21 @@ class AnuncioController extends Controller
         return view('anuncio.index',['anuncio'=> $anuncio]);
     }
 
-    public function buscaUsuario($usuarios) {
-        $buscausuario = Usuario::find($usuarios);
-        return $buscausuario;
-    }
-
-    public function create($usuarios)
+    public function create()
     {
-        $usuarioId = $usuarios;
-        $usuario = $this->buscaUsuario($usuarioId);
+        $user = Auth::user();
+
+        // Verifica se o usuário autenticado é um Locador
+        if ($user->tipousu !== 'Locador') {
+            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para criar anúncios.');
+        }
+
+        // Carrega as categorias disponíveis
         $categoria = Categoria::all();
 
-        if ($this->verificaLocador($usuarioId)) {
-            return redirect('/')->with('error', 'Você não tem permissão para criar anúncios.');
-        }
-
-        return view('anuncio.create', ['usuario' => $usuario, 'categoria' => $categoria]);
+        return view('anuncio.create', compact('user', 'categoria'));
     }
-    public function verificaLocador($usuarioId)
-    {
-        $usuario = Usuario::find($usuarioId);
 
-        if ($usuario && $usuario->tipousu === 'Locador') {
-            return false;
-        }
-
-        return true;
-    }
 
     public function store(Request $request)
     {
@@ -61,8 +50,8 @@ class AnuncioController extends Controller
             'agenda' => 'required|date',
             'categoriaId' => 'required|array',
         ]);
-        $usuarioId = $request->input('usuario_id');
 
+        // Cria o novo endereço
         $endereco = new Endereco();
         $endereco->cidade = $request->cidade;
         $endereco->cep = $request->cep;
@@ -75,7 +64,7 @@ class AnuncioController extends Controller
         }
 
         $anuncio = new Anuncio();
-        $anuncio-> usuario_id =$usuarioId;
+        $anuncio->usuario_id = Auth::id();
         $anuncio->titulo = $request->titulo;
         $anuncio->endereco_id = $endereco->id;
         $anuncio->capacidade = $request->capacidade;
@@ -83,15 +72,14 @@ class AnuncioController extends Controller
         $anuncio->valor = $request->valor;
         $anuncio->agenda = $request->agenda;
         $anuncio->save();
+
         $anuncio->categoria()->attach($request->categoriaId);
-        /**$categoriaId = $request->categoriaId;
-        $anuncio->categoria()->attach($categoriaId);
-        */
+
         if (!$anuncio) {
-            return redirect('/anuncio')->with('error', 'Erro ao criar anúncio');
+            return redirect()->route('dashboard')->with('error', 'Erro ao criar anúncio');
         }
 
-        return redirect('/anuncio');
+        return redirect()->route('dashboard')->with('success', 'Anúncio criado com sucesso.');
     }
 
     /**

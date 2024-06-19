@@ -76,7 +76,6 @@
             </select>
         </div>
         <div>
-            <input type="hidden" name="usuario_id" value="{{ $usuario->id }}">
             <input type="submit" value="Enviar">
         </div>
     </form>

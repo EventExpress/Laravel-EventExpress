@@ -32,7 +32,7 @@
 
         <div>
             <label for="tipousu" class="block text-sm font-medium text-gray-700">Tipo de Usuário</label>
-            <select id="tipousu" name="tipousu" required onchange="toggleCnpjField(this)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <select id="tipousu" name="tipousu" required onchange="OcultarCnpj(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <option value="Cliente" {{ old('tipousu') == 'Cliente' ? 'selected' : '' }}>Cliente</option>
                 <option value="Locador" {{ old('tipousu') == 'Locador' ? 'selected' : '' }}>Locador</option>
             </select>
@@ -51,7 +51,7 @@
         <!-- CNPJ (mostrar apenas se tipo de usuário for Locador) -->
         <div id="cnpjField" class="mt-4" style="display: {{ old('tipousu') === 'Locador' ? 'block' : 'none' }}">
             <x-input-label for="cnpj" :value="__('CNPJ')" />
-            <x-text-input id="cnpj" class="block mt-1 w-full" type="text" name="cnpj" :value="old('cnpj')" required />
+            <x-text-input id="cnpj" class="block mt-1 w-full" type="text" name="cnpj" :value="old('cnpj')"/>
             <x-input-error :messages="$errors->get('cnpj')" class="mt-2" />
         </div>
 
@@ -109,9 +109,15 @@
     </form>
 
     <script>
-        function toggleCnpjField(select) {
-            var cnpjField = document.getElementById('cnpjField');
-            cnpjField.style.display = select.value === 'Locador' ? 'block' : 'none';
+        function OcultarCnpj(tipoUsu) {
+            var cnpjField = document.getElementById("cnpjField");
+            var cnpjInput = document.getElementById("cnpj");
+            if (tipoUsu === "Locador") {
+                cnpjField.style.display = "block";
+            } else {
+                cnpjField.style.display = "none";
+                cnpjInput.value = "";
+            }
         }
     </script>
 </x-guest-layout>

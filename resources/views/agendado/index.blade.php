@@ -21,6 +21,7 @@
             <th>Data do Fim</th>
             <th>Valor</th>
             <th>Adicional</th>
+            <th>Cliente</th>
             <th>Ações</th>
         </thead>
         <tbod>
@@ -40,6 +41,7 @@
                             {{ $adicional->titulo }} @if (!$loop->last), @endif
                         @endforeach
                     </td>
+                    <td>{{ $agendados->usuario->nome->nome }}</td>
                     <td>
                         <a href="{{ url("agendado/$agendados->id/edit") }}">Editar</a>
                         <br>

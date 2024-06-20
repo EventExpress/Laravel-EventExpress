@@ -17,7 +17,17 @@ class AgendadoController extends Controller
     {
         $agendado = Agendado::all();
         $user = Auth::user();
-        $agendado = Agendado::where('usuario_id', $user->id)->get();
+
+        //se o usuario for cliente, mostrara as suas reservas
+        if ($user->tipousu === 'Cliente') {
+            $agendado = Agendado::where('usuario_id', $user->id)->get();
+        } 
+        //se o usario for locador, mostrara as reservas dos anuncios
+        else if ($user->tipousu === 'Locador') {
+            $agendado = Agendado::whereHas('anuncio', function ($query) use ($user) {
+                $query->where('usuario_id', $user->id);
+            })->get();
+        }
         return view('agendado.index', ['agendado' => $agendado]);
     }
 
@@ -169,7 +179,7 @@ class AgendadoController extends Controller
         $agendado = Agendado::find($id);
         $user = Auth::user();
 
-        if (!$agendado || $agendado->usuario_id != $user->id) {
+        if (!$agendado || ($agendado->usuario_id != $user->id && $agendado->anuncio->usuario_id != $user->id)) {
             return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
 

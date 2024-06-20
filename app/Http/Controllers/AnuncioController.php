@@ -119,6 +119,12 @@ class AnuncioController extends Controller
     {
         $anuncio = Anuncio::find($id);
 
+        $user = Auth::user();
+
+        if (!$anuncio || $anuncio->usuario_id != $user->id) {
+        return redirect()->route('anuncio.index')->with( 'Anúncio não encontrado ou você não tem permissão para editá-lo.');
+    }
+
         $categoria = Categoria::all();
 
         $categoriaSelecionada = $anuncio->categoria->pluck('id')->toArray();
@@ -147,9 +153,10 @@ class AnuncioController extends Controller
             'categoriaId' => 'required|array'
         ]);
 
+        $user = Auth::user();
         $anuncio = Anuncio::find($id);
 
-        if (!$anuncio) {
+        if (!$anuncio || $anuncio->usuario_id != $user->id) {
             return redirect()->route('anuncio.index')->with('error', 'Anúncio não encontrado.');
         }
 
@@ -175,7 +182,13 @@ class AnuncioController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
         $anuncio = Anuncio::find($id);
+
+        if (!$anuncio || $anuncio->usuario_id != $user->id) {
+            return redirect()->route('anuncio.index')->with('error', 'Anúncio não encontrado ou você não tem permissão para excluí-lo.');
+        }
+        
         $anuncio->delete();
         $anuncio->endereco()->delete();
         return redirect('/anuncio');

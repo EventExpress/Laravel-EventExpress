@@ -1,4 +1,21 @@
 <div>
+    @if ($errors->any())
+        <div style="color: red;">
+            <strong>Erros:</strong>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div style="color: green;">
+            <strong>{{ session('success') }}</strong>
+        </div>
+    @endif
+
     <h2>Adicionar Anúncio</h2>
     <form action="/anuncio" method="POST">
         @csrf

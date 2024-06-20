@@ -20,6 +20,19 @@ class AnuncioController extends Controller
         return view('anuncio.index',['anuncio'=> $anuncio]);
     }
 
+    public function meusAnuncios()
+    {
+        $user = Auth::user();
+        if ($user->tipousu !== 'Locador') {
+            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para criar anúncios.');
+        }
+
+        $user_id = auth()->user()->id;
+        $anuncio = Anuncio::where('usuario_id', $user_id)->get();
+
+        return view('meusanuncios', compact('anuncio'));
+    }
+
     public function create()
     {
         $user = Auth::user();
@@ -77,7 +90,7 @@ class AnuncioController extends Controller
         /**$categoriaId = $request->categoriaId;
         $anuncio->categoria()->attach($categoriaId);
         */
-        
+
         if (!$anuncio) {
             return redirect()->route('dashboard')->with('error', 'Erro ao criar anúncio');
         }
@@ -188,7 +201,7 @@ class AnuncioController extends Controller
         if (!$anuncio || $anuncio->usuario_id != $user->id) {
             return redirect()->route('anuncio.index')->with('error', 'Anúncio não encontrado ou você não tem permissão para excluí-lo.');
         }
-        
+
         $anuncio->delete();
         $anuncio->endereco()->delete();
         return redirect('/anuncio');

@@ -15,9 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if(Auth::check() && Auth::user()->tipousu != 'Cliente')
                     <x-nav-link :href="route('anuncio.create')" :active="request()->routeIs('anuncio.create')">
                         {{ __('Criar Anuncio') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('meus-anuncios')" :active="request()->routeIs('meus-anuncios')">
+                        {{ __('Meus Anúncios') }}
+                    </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('anuncio.index')" :active="request()->routeIs('anuncio.index')">
                         {{ __('Visualizar Anuncio') }}
                     </x-nav-link>

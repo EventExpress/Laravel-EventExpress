@@ -1,4 +1,26 @@
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div>
+
     <h1>Lista de anuncios</h1>
     <div>
         <a href="/">Home</a><br><br>
@@ -36,16 +58,12 @@
                         @endforeach
                     </td>
                 <td>
-                    <a href="{{url("anuncio/$anuncios->id/edit")}}">Editar</a>
                     <br>
-                    <form method="POST" action="{{url("anuncio/$anuncios->id")}}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o anuncio {{$anuncios->titulo}} ?')"> Excluir</button>
-                        <br>
                         <a href="{{ route('agendado.create', ['anuncioId' => $anuncios->id]) }}">Reservar</a>
 
-                    </form>
+                    @error('agendado')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </td>
             </tr>
         @endforeach

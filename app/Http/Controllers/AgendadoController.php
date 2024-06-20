@@ -9,12 +9,15 @@ use App\Models\Anuncio;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AgendadoController extends Controller
 {
     public function index()
     {
         $agendado = Agendado::all();
+        $user = Auth::user();
+        $agendado = Agendado::where('usuario_id', $user->id)->get();
         return view('agendado.index', ['agendado' => $agendado]);
     }
 
@@ -23,11 +26,23 @@ class AgendadoController extends Controller
      */
     public function create($anuncioId)
     {
+        $user = Auth::user();
+
+        // Verifica se o usuário autenticado é um Locador
+        if ($user->tipousu !== 'Cliente') {
+            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para criar anúncios.');
+        }
 
         $anuncio = Anuncio::find($anuncioId);
         $adicional = Adicional::all();
         if (!$anuncio) {
             return redirect()->route('anuncio.index')->with('error', 'Anúncio não encontrado.');
+        }
+
+        // Verifica se o anúncio já está reservado
+        $reservaExistente = Agendado::where('anuncio_id', $anuncioId)->first();
+        if ($reservaExistente) {
+            return redirect()->route('anuncio.index')->with('error', 'Este anúncio já está reservado.');
         }
 
         return view('agendado.create', ['anuncio' => $anuncio, 'adicional' => $adicional]);
@@ -48,11 +63,17 @@ class AgendadoController extends Controller
         $dataInicio = Carbon::parse($request->data_inicio)->toDateTimeString();
         $dataFim = Carbon::parse($request->data_fim)->toDateTimeString();
 
+        // Verifica se o anúncio já está reservado
+        $reservaExistente = Agendado::where('anuncio_id', $request->anuncio_id)->first();
+        if ($reservaExistente) {
+            return redirect()->route('anuncio.index')->with('error', 'Este anúncio já está reservado.');
+        }
+
         $agendado = new Agendado();
         $agendado->anuncio_id = $request->anuncio_id;
+        $agendado->usuario_id = Auth::id(); // Atribui a reserva ao usuário logado
         $agendado->data_inicio = $dataInicio;
         $agendado->data_fim = $dataFim;
-        $agendado->confirmado = false; // Por padrão, novo agendado não está confirmado
         $agendado->save();
         if ($request->has('adicionalId') && is_array($request->adicionalId)) {
             // Filtra os IDs válidos para evitar valores nulos ou inválidos
@@ -86,8 +107,9 @@ class AgendadoController extends Controller
     public function edit($id)
     {
         $agendado = Agendado::find($id);
+        $user = Auth::user();
 
-        if (!$agendado) {
+        if (!$agendado || $agendado->usuario_id != $user->id) {
             return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
         $adicional = Adicional::all();
@@ -114,8 +136,9 @@ class AgendadoController extends Controller
         ]);
 
         $agendado = Agendado::find($id);
+        $user = Auth::user();
 
-        if (!$agendado) {
+        if (!$agendado || $agendado->usuario_id != $user->id) {
             return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
 
@@ -123,6 +146,7 @@ class AgendadoController extends Controller
         $agendado->data_fim = $request->data_fim;
         $adicionalId = $request->adicionalId;
         $agendado->save();
+
         if ($request->has('adicionalId') && is_array($request->adicionalId)) {
             // Filtra os IDs válidos para evitar valores nulos ou inválidos
             $validAdicionalIds = array_filter($request->adicionalId, function ($id) {
@@ -131,11 +155,8 @@ class AgendadoController extends Controller
     
             $agendado->adicional()->sync($validAdicionalIds);
         } else {
-            // Se não houver adicionais, desanexa todos
             $agendado->adicional()->detach();
         }
-        
-        //$agendado->adicional()->sync($request->adicionalId);
 
         return redirect()->route('agendado.index')->with('Reserva atualizada com sucesso.');
     }
@@ -146,8 +167,9 @@ class AgendadoController extends Controller
     public function destroy($id)
     {
         $agendado = Agendado::find($id);
+        $user = Auth::user();
 
-        if (!$agendado) {
+        if (!$agendado || $agendado->usuario_id != $user->id) {
             return redirect()->route('agendado.index')->with('Reserva não encontrada.');
         }
 

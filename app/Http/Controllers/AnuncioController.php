@@ -74,7 +74,10 @@ class AnuncioController extends Controller
         $anuncio->save();
 
         $anuncio->categoria()->attach($request->categoriaId);
-
+        /**$categoriaId = $request->categoriaId;
+        $anuncio->categoria()->attach($categoriaId);
+        */
+        
         if (!$anuncio) {
             return redirect()->route('dashboard')->with('error', 'Erro ao criar anúncio');
         }

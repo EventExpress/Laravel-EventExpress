@@ -18,6 +18,12 @@
                     <x-nav-link :href="route('anuncio.create')" :active="request()->routeIs('anuncio.create')">
                         {{ __('Criar Anuncio') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('anuncio.index')" :active="request()->routeIs('anuncio.index')">
+                        {{ __('Visualizar Anuncio') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('agendado.index')" :active="request()->routeIs('agendado.index')">
+                        {{ __('Visualizar Reservas') }}
+                    </x-nav-link>
                 </div>
             </div>
 

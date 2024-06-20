@@ -20,6 +20,8 @@
                 </select>
         </div>
         <input type="hidden" name="anuncio_id" value="{{ $anuncio->id }}">
+        <input type="hidden" name="usuario_id" value="{{ Auth::id() }}">
+
         <button type="submit" class="btn btn-primary">Reservar</button>
     </form>
 </div>

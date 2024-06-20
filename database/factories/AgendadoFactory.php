@@ -24,7 +24,6 @@ class AgendadoFactory extends Factory
             'anuncio_id' => $anuncio->id,
             'data_inicio' => $dataInicio,
             'data_fim' => $dataFim,
-            'confirmado' => $this->faker->boolean(90),
         ];
     }
 }

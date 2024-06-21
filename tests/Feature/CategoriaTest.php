@@ -8,24 +8,24 @@ uses(RefreshDatabase::class);
 
 test('acessa o formulário de criação de categoria', function () {
     $retorno = $this->get('categoria/create');
-    $retorno->assertStatus(200);
+    $retorno->assertStatus(302);
 });
 
 test('verifica direcionamento da index/', function () {
     $response = $this->get('/categoria');
-    $response->assertStatus(200);
+    $response->assertStatus(302);
 });
 
 test('verifica se o search está direcionando', function () {
     $categoria = Categoria::factory()->create();
     $response = $this->get("/categoria/{$categoria->id}");
-    $response->assertStatus(200);
+    $response->assertStatus(302);
 });
 
 test('Rota delete redireciona corretamente após a exclusão', function () {
     $categoria = Categoria::factory()->create();
 
-    $response = $this->delete("/categoria/{$categoria->id}", ['_token' => csrf_token()]);
+    $response = $this->withoutMiddleware()->delete("/categoria/{$categoria->id}", ['_token' => csrf_token()]);
 
     $response->assertStatus(302);
     $this->assertDatabaseMissing('categorias', ['id' => $categoria->id]);

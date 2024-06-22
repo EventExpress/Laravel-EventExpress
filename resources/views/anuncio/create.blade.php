@@ -1,99 +1,107 @@
-<div>
-    @if ($errors->any())
-        <div style="color: red;">
-            <strong>Erros:</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+<x-app-layout>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-80 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 block mt-1 w-full bg-gray-00 text-gray-700 border-orange-500 focus:border-orange-600 focus:ring-orange-500">
+                    @if ($errors->any())
+                        <div class="mb-4 font-medium text-sm text-red-600">
+                            <strong>Erros:</strong>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-    @if (session('success'))
-        <div style="color: green;">
-            <strong>{{ session('success') }}</strong>
-        </div>
-    @endif
+                    @if (session('success'))
+                        <div class="mb-4 font-medium text-sm text-green-600">
+                            <strong>{{ session('success') }}</strong>
+                        </div>
+                    @endif
 
-    <h2>Adicionar Anúncio</h2>
-    <form action="/anuncio" method="POST">
-        @csrf
-        <div>
-            <label for="titulo">Título:</label>
-            <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}" required>
-            @error('titulo')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">Adicionar Anúncio</h2>
+                    <form action="{{ route('anuncio.store') }}" method="POST">
+                        @csrf
+                        <div class="mt-4">
+                            <label for="titulo" class="text-orange-500">Título:</label>
+                            <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}" required class="block mt-1 w-full">
+                            @error('titulo')
+                            <div class="text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="cidade" class="text-orange-500">Cidade:</label>
+                            <input type="text" name="cidade" id="cidade" value="{{ old('cidade') }}" required class="block mt-1 w-full">
+                            @error('cidade')
+                            <div class="text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="cep" class="text-orange-500">CEP:</label>
+                            <input type="text" name="cep" id="cep" value="{{ old('cep') }}" required class="block mt-1 w-full">
+                            @error('cep')
+                            <div class="text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="numero" class="text-orange-500">Número:</label>
+                            <input type="number" name="numero" id="numero" value="{{ old('numero') }}" required class="block mt-1 w-full">
+                            @error('numero')
+                            <div class="text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="bairro" class="text-orange-500">Bairro:</label>
+                            <input type="text" name="bairro" id="bairro" value="{{ old('bairro') }}" required class="block mt-1 w-full">
+                            @error('bairro')
+                            <div class="text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="capacidade" class="text-orange-500">Capacidade:</label>
+                            <input type="number" name="capacidade" id="capacidade" value="{{ old('capacidade') }}" required class="block mt-1 w-full">
+                            @error('capacidade')
+                            <div class="text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="descricao" class="text-orange-500">Descrição:</label>
+                            <input type="text" name="descricao" id="descricao" value="{{ old('descricao') }}" required class="block mt-1 w-full">
+                            @error('descricao')
+                            <div class="text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="valor" class="text-orange-500">Valor:</label>
+                            <input type="number" name="valor" id="valor" value="{{ old('valor') }}" required class="block mt-1 w-full">
+                            @error('valor')
+                            <div class="text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="agenda" class="text-orange-500">Agenda:</label>
+                            <input type="date" name="agenda" id="agenda" value="{{ old('agenda') }}" required class="block mt-1 w-full">
+                            @error('agenda')
+                            <div class="text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="categoriaId" class="text-orange-500">Escolher categoria</label>
+                            <select name="categoriaId[]" id="categoriaId" class="block mt-1 w-full">
+                                @foreach($categoria as $categorias)
+                                    <option value="{{ $categorias->id }}" {{ in_array($categorias->id, old('categoriaId', [])) ? 'selected' : '' }}>
+                                        {{ $categorias->titulo }} - Descrição: {{ $categorias->descricao }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mt-4">
+                            <input type="submit" value="Enviar" class="px-4 py-2 bg-blue-600 text-white rounded-md">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="cidade">Cidade:</label>
-            <input type="text" name="cidade" id="cidade" value="{{ old('cidade') }}" required>
-            @error('cidade')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div>
-            <label for="cep">CEP:</label>
-            <input type="text" name="cep" id="cep" value="{{ old('cep') }}" required>
-            @error('cep')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div>
-            <label for="numero">Número:</label>
-            <input type="number" name="numero" id="numero" value="{{ old('numero') }}" required>
-            @error('numero')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div>
-            <label for="bairro">Bairro:</label>
-            <input type="text" name="bairro" id="bairro" value="{{ old('bairro') }}" required>
-            @error('bairro')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div>
-            <label for="capacidade">Capacidade:</label>
-            <input type="number" name="capacidade" id="capacidade" value="{{ old('capacidade') }}" required>
-            @error('capacidade')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div>
-            <label for="descricao">Descrição:</label>
-            <input type="text" name="descricao" id="descricao" value="{{ old('descricao') }}" required>
-            @error('descricao')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div>
-            <label for="valor">Valor:</label>
-            <input type="number" name="valor" id="valor" value="{{ old('valor') }}" required>
-            @error('valor')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div>
-            <label for="agenda">Agenda:</label>
-            <input type="date" name="agenda" id="agenda" value="{{ old('agenda') }}" required>
-            @error('agenda')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div>
-            <label for="categoriaId">Escolher categoria</label>
-            <select name="categoriaId[]" id="categoriaId">
-                @foreach($categoria as $categorias)
-                    <option value="{{ $categorias->id }}" {{ in_array($categorias->id, old('categoriaId', [])) ? 'selected' : '' }}>
-                        {{ $categorias->titulo }} - Descrição: {{ $categorias->descricao }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            <input type="submit" value="Enviar">
-        </div>
-    </form>
-</div>
+    </div>
+</x-app-layout>

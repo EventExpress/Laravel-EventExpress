@@ -55,7 +55,7 @@
 
         <div id="cnpjField" style="display: {{ old('tipousu', $user->tipousu) === 'Locador' ? 'block' : 'none' }}">
             <x-input-label for="cnpj" :value="__('CNPJ')" class="text-orange-400" />
-            <x-text-input id="cnpj" name="cnpj" type="text" class="mt-1 block w-full" :value="old('cnpj', $user->cnpj)" required />
+            <x-text-input id="cnpj" name="cnpj" type="text" class="mt-1 block w-full" :value="old('cnpj', $user->cnpj)" />
             <x-input-error class="mt-2" :messages="$errors->get('cnpj')" />
         </div>
 
@@ -103,10 +103,17 @@
             var cnpjInput = document.getElementById("cnpj");
             if (tipoUsu === "Locador") {
                 cnpjField.style.display = "block";
+                cnpjInput.setAttribute("required", "required");
             } else {
                 cnpjField.style.display = "none";
+                cnpjInput.removeAttribute("required");
                 cnpjInput.value = "";
             }
         }
+
+        // Chama a função para garantir que o estado inicial esteja correto
+        document.addEventListener("DOMContentLoaded", function() {
+            OcultarCnpj(document.getElementById("tipousu").value);
+        });
     </script>
 </section>

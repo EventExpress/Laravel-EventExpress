@@ -27,7 +27,6 @@
 
                     <h1 class="text-2xl font-semibold mb-4 text-orange-500">Anúncios</h1>
 
-
                     <form action="{{ url('anuncio/show') }}" method="GET" class="mb-4 flex">
                         <input type="text" name="search" placeholder="Procurar Anúncio" class="w-full px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
                         <x-primary-button class="ml-3 bg-orange-500 hover:bg-orange-600 focus:bg-orange-600 focus:ring-orange-500">
@@ -52,16 +51,12 @@
                                 </div>
                                 
                                 <div class="mt-4">
-                                    @if(Auth::user()->tipo == 'cliente')
                                         <a href="{{ route('agendado.create', ['anuncioId' => $anuncio->id]) }}" class="inline-block bg-blue-500 text-white px-3 py-1 rounded-md text-sm text-blue-500 hover:text-blue-700">Reservar</a>
-                                    @endif
-                                    @error('agendado')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+
                                 </div>
                             </div>
                         @empty
-                            <p class="text-gray-700 dark:text-gray-300">Você não possui nenhum anúncio.</p>
+                            <p class="text-gray-700 dark:text-gray-300">Não possui nenhum anúncio.</p>
                         @endforelse
                     </div>
                 </div>

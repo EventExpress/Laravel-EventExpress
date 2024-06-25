@@ -31,9 +31,9 @@ class AgendadoController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->tipousu !== 'Cliente') {
-            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para criar anúncios.');
-        }
+        //if ($user->tipousu !== 'Cliente') {
+        //  return redirect()->route('dashboard')->with('error', 'Você não tem permissão para criar anúncios.');
+        //}
 
         $anuncio = Anuncio::find($anuncioId);
         $adicional = Adicional::all();

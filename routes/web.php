@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::put('anuncio/{id}', [AnuncioController::class, 'update'])->name('anuncio.update');
     Route::delete('anuncio/{id}', [AnuncioController::class, 'destroy'])->name('anuncio.destroy');
     Route::get('anuncio/{id}', [AnuncioController::class, 'show'])->name('anuncio.show');
-    Route::get('/anuncio', [AnuncioController::class, 'index'])->name('anuncio.index');
+    Route::get('/dashboard', [AnuncioController::class, 'index'])->name('anuncio.index');
 
     Route::get('/agendado', [AgendadoController::class, 'index'])->name('agendado.index');
     Route::get('anuncio/{anuncioId}/reservar', [AgendadoController::class, 'create'])->name('agendado.create');

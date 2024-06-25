@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-80 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-800">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if(session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -24,59 +24,45 @@
                             </ul>
                         </div>
                     @endif
-                    <h1 class="text-2xl font-semibold mb-4 text-orange-500">Lista de Anúncios</h1>
-                    <div>
-                        <div>
-                            <a href="/"class="underline text-sm text-gray-700 hover:text-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Home</a><br><br>
-                        </div>
 
-                        <form action="{{ url('anuncio/show') }}" method="GET">
-                            <input type="text" name="search" placeholder="Procurar Anúncio">
-                            <x-primary-button class="ml-3 bg-gray-500 hover:bg-orange-600 focus:bg-orange-600 focus:ring-orange-500">
-                {{ __('buscar') }}
-            </x-primary-button>
-                        </form>
-                        
-                        <table border="1" class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 text-gray-700">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Título</th>
-                                    <th>Endereço</th>
-                                    <th>Capacidade</th>
-                                    <th>Descrição</th>
-                                    <th>Locador</th>
-                                    <th>Valor</th>
-                                    <th>Categoria</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-700 text-gray-700">
-                                @foreach($anuncio as $anuncios)
-                                    <tr>
-                                        <td>{{ $anuncios->id }}</td>
-                                        <td>{{ $anuncios->titulo }}</td>
-                                        <td>{{ $anuncios->endereco->cidade }}, CEP: {{ $anuncios->endereco->cep }}, Número: {{ $anuncios->endereco->numero }}, {{ $anuncios->endereco->bairro }}</td>
-                                        <td>{{ $anuncios->capacidade }}</td>
-                                        <td>{{ $anuncios->descricao }}</td>
-                                        <td>{{ $anuncios->usuario->nome->nome }}</td>
-                                        <td>{{ $anuncios->valor }}</td>
-                                        <td>
-                                            @foreach($anuncios->categoria as $categoria)
-                                                {{ $categoria->titulo }} @if (!$loop->last), @endif
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            <br>
-                                            <a href="{{ route('agendado.create', ['anuncioId' => $anuncios->id]) }}">Reservar</a>
-                                            @error('agendado')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <h1 class="text-2xl font-semibold mb-4 text-orange-500">Anúncios</h1>
+
+
+                    <form action="{{ url('anuncio/show') }}" method="GET" class="mb-4 flex">
+                        <input type="text" name="search" placeholder="Procurar Anúncio" class="w-full px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                        <x-primary-button class="ml-3 bg-orange-500 hover:bg-orange-600 focus:bg-orange-600 focus:ring-orange-500">
+                            {{ __('Buscar') }}
+                        </x-primary-button>
+                    </form>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        @forelse($anuncio as $anuncio)
+                            <div class="bg-white dark:bg-gray-200 rounded-lg shadow-md p-4">
+                                <p class="text-gray-900 dark:text-gray-100 font-semibold">{{ $anuncio->titulo }}</p>
+                                <p class="text-gray-600 dark:text-gray-400">{{ $anuncio->endereco->cidade }}, CEP: {{ $anuncio->endereco->cep }}, Número: {{ $anuncio->endereco->numero }}, {{ $anuncio->endereco->bairro }}</p>
+                                <p class="text-gray-700 dark:text-gray-300">Capacidade: {{ $anuncio->capacidade }}</p>
+                                <p class="text-gray-700 dark:text-gray-300">{{ $anuncio->descricao }}</p>
+                                <p class="text-gray-700 dark:text-gray-300">Locador: {{ $anuncio->usuario->nome->nome }}</p>
+                                <p class="text-gray-700 dark:text-gray-300">Valor: {{ $anuncio->valor }}</p>
+                                
+                                <div class="mt-4">
+                                    @foreach($anuncio->categoria as $categoria)
+                                        <span class="bg-gray-200 text-gray-700 dark:text-gray-300 px-2 py-1 text-xs rounded">{{ $categoria->titulo }}</span>
+                                    @endforeach
+                                </div>
+                                
+                                <div class="mt-4">
+                                    @if(Auth::user()->tipo == 'cliente')
+                                        <a href="{{ route('agendado.create', ['anuncioId' => $anuncio->id]) }}" class="inline-block bg-blue-500 text-white px-3 py-1 rounded-md text-sm text-blue-500 hover:text-blue-700">Reservar</a>
+                                    @endif
+                                    @error('agendado')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-gray-700 dark:text-gray-300">Você não possui nenhum anúncio.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>

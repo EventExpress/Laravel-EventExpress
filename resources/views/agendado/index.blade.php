@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-80 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-800">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if(session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -26,67 +26,66 @@
                     @endif
 
                     <h1 class="text-2xl font-semibold mb-4 text-orange-500">Lista de Reservas</h1>
-                    <div class="mb-4">
-                        <a href="/" class="underline text-sm text-gray-700 hover:text-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Home</a><br><br>
-                        <a href="/anuncio" class="underline text-sm text-gray-700 hover:text-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Nova Reserva</a>
-                    </div>
+ 
                     <br>
-                    <form action="{{ url('agendado/show') }}" method="GET" class="mb-4">
-                        <input type="text" name="search" placeholder="Procurar reserva" class="border rounded-md p-2">
-                        <x-primary-button class="ml-3 bg-gray-500 hover:bg-orange-600 focus:bg-orange-600 focus:ring-orange-500">
+                    <form action="{{ url('agendado/show') }}" method="GET" class="mb-4 flex">
+                        <input type="text" name="search" placeholder="Procurar reserva" class="border rounded-l-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                        <x-primary-button class="ml-3 bg-orange-500 hover:bg-orange-600 focus:bg-orange-600 focus:ring-orange-500">
                             {{ __('buscar') }}
-                         </x-primary-button>
+                        </x-primary-button>
                     </form>
-                    <table border="1" class="w-full table-auto text-gray-700">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Anuncio</th>
-                                <th>Endereço</th>
-                                <th>Capacidade</th>
-                                <th>Descricao</th>
-                                <th>Locador</th>
-                                <th>Data de Inicio</th>
-                                <th>Data do Fim</th>
-                                <th>Valor</th>
-                                <th>Adicional</th>
-                                <th>Cliente</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($agendado as $agendados)
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50 text-gray-700">
                                 <tr>
-                                    <td>{{ $agendados->id }}</td>
-                                    <td>{{ $agendados->anuncio->titulo }}</td>
-                                    <td>{{ $agendados->anuncio->endereco->cidade }}, CEP: {{ $agendados->anuncio->endereco->cep }}, Numero: {{ $agendados->anuncio->endereco->numero }}, {{ $agendados->anuncio->endereco->bairro }}</td>
-                                    <td>{{ $agendados->anuncio->capacidade }}</td>
-                                    <td>{{ $agendados->anuncio->descricao }}</td>
-                                    <td>{{ $agendados->anuncio->usuario->nome->nome }}</td>
-                                    <td>{{ $agendados->data_inicio }}</td>
-                                    <td>{{ $agendados->data_fim }}</td>
-                                    <td>{{ $agendados->anuncio->valor }}</td>
-                                    <td>
-                                        @foreach($agendados->adicional as $adicional)
-                                            {{ $adicional->titulo }} @if (!$loop->last), @endif
-                                        @endforeach
-                                    </td>
-                                    <td>{{ $agendados->usuario->nome->nome }}</td>
-                                    <td>
-                                        <a href="{{ url("agendado/$agendados->id/edit") }}" class="text-blue-500">Editar</a>
-                                        <br>
-                                        <form method="POST" action="{{ url("agendado/$agendados->id") }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-500" onclick="return confirm('Tem certeza que deseja cancelar a reserva {{ $agendados->nome }}?')">Cancelar</button>
-                                        </form>
-                                    </td>
+                                 <!-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th> -->
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Anuncio</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endereço</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Capacidade</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Locador</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data de Início</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data do Fim</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Adicional</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 text-gray-700">
+                                @foreach($agendado as $agendados)
+                                    <tr>
+                                      <!--  <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->id }}</td> -->
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->anuncio->titulo }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->anuncio->endereco->cidade }}, CEP: {{ $agendados->anuncio->endereco->cep }}, Número: {{ $agendados->anuncio->endereco->numero }}, {{ $agendados->anuncio->endereco->bairro }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->anuncio->capacidade }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->anuncio->descricao }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->anuncio->usuario->nome->nome }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->data_inicio }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->data_fim }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->anuncio->valor }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @foreach($agendados->adicional as $adicional)
+                                                {{ $adicional->titulo }} @if (!$loop->last), @endif
+                                            @endforeach
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $agendados->usuario->nome->nome }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <a href="{{ url("agendado/$agendados->id/edit") }}" class="text-blue-500 hover:text-blue-700">Editar</a>
+                                            <br>
+                                            <form method="POST" action="{{ url("agendado/$agendados->id") }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-500 hover:text-red-700" onclick="return confirm('Tem certeza que deseja cancelar a reserva {{ $agendados->nome }}?')">Cancelar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     @if ($agendado->isEmpty())
-                        <p>Nenhuma reserva encontrada.</p>
+                        <p class="mt-4">Nenhuma reserva encontrada.</p>
                     @endif
                 </div>
             </div>

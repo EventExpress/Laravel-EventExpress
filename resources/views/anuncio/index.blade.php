@@ -27,12 +27,7 @@
 
                     <h1 class="text-2xl font-semibold mb-4 text-orange-500">Anúncios</h1>
 
-                    <form action="{{ url('anuncio/show') }}" method="GET" class="mb-4 flex">
-                        <input type="text" name="search" placeholder="Procurar Anúncio" class="w-full px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                        <x-primary-button class="ml-3 bg-orange-500 hover:bg-orange-600 focus:bg-orange-600 focus:ring-orange-500">
-                            {{ __('Buscar') }}
-                        </x-primary-button>
-                    </form>
+
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @forelse($anuncio as $anuncio)

@@ -23,6 +23,12 @@
                 </div>
             </div>
 
+            <form action="{{ url('anuncio/show') }}" method="GET" class="flex items-center justify-center">
+                        <input type="text" name="search" placeholder="Procurar Anúncio" class="w-full px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                        <x-primary-button type="submit" class="ml-3 bg-orange-500 hover:bg-orange-600 focus:bg-orange-600 focus:ring-orange-500">
+                            {{ __('Buscar') }}
+                        </x-primary-button>
+                    </form>
             <!-- Settings Dropdown or Login/Register -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @if(Auth::check())
@@ -66,8 +72,8 @@
                     </x-dropdown>
                 @else
                     <div>
-                        <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-blue-600">Login</a>
-                        <a href="{{ route('register') }}" class="bg-green-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-green-600 ml-2">Registrar</a>
+                        <a href="{{ route('login') }}" class="bg-orange-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-orange-600">Login</a>
+                        <a href="{{ route('register') }}" class="bg-gray-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-gray-600 ml-2">Registrar</a>
                     </div>
                 @endif
             </div>
@@ -86,11 +92,7 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
+
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

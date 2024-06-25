@@ -40,7 +40,7 @@
 
         <div>
             <x-input-label for="tipousu" :value="__('Tipo de Usuário')" class="text-orange-400" />
-            <select id="tipousu" name="tipousu" required onchange="OcultarCnpj(this.value)" class="mt-1 block w-full">
+            <select id="tipousu" name="tipousu" required onchange="OcultarCnpj(this.value)" class="mt-1 block w-full form-input rounded-md shadow-sm">
                 <option value="Cliente" {{ old('tipousu', $user->tipousu) == 'Cliente' ? 'selected' : '' }}>Cliente</option>
                 <option value="Locador" {{ old('tipousu', $user->tipousu) == 'Locador' ? 'selected' : '' }}>Locador</option>
             </select>

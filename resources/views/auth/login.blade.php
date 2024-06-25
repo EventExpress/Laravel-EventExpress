@@ -33,6 +33,11 @@
                     {{ __('Esqueceu sua senha?') }}
                 </a>
             @endif
+            @if (Route::has('register'))
+                <a class="underline text-sm text-orange-500 hover:text-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" href="{{ route('register') }}">
+                    {{ __('Não possui cadastro?') }}
+                </a>
+            @endif
 
             <x-primary-button class="ml-3 bg-orange-500 hover:bg-orange-600 focus:bg-orange-600 focus:ring-orange-500">
                 {{ __('entrar') }}

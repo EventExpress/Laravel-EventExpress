@@ -20,6 +20,12 @@ class AnuncioController extends Controller
         return view('anuncio.index',['anuncio'=> $anuncio]);
     }
 
+    public function indexPrincipal()
+    {
+        $anuncios = Anuncio::all();
+        return view('eventexpress', ['anuncio' => $anuncios]);
+    }
+
     public function meusAnuncios()
     {
         $user = Auth::user();

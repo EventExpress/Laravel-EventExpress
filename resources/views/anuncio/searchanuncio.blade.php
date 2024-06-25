@@ -26,9 +26,6 @@
                     @endif
                     <h1 class="text-2xl font-semibold mb-4 text-orange-500">Lista de Anúncios</h1>
                     <div>
-                        <div class="mb-4">
-                            <a href="/" class="underline text-sm text-gray-700 hover:text-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Home</a>
-                        </div>
 
                         <form action="{{ url('anuncio/show') }}" method="GET" class="mb-4 flex">
                             <input type="text" name="search" placeholder="Procurar Anúncio" class="w-full px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">

@@ -24,7 +24,7 @@ class AnuncioController extends Controller
     {
         $user = Auth::user();
         if ($user->tipousu !== 'Locador') {
-            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para criar anúncios.');
+            return redirect()->route('anuncio.index')->with('error', 'Você não tem permissão para criar anúncios.');
         }
 
         $user_id = auth()->user()->id;
@@ -39,7 +39,7 @@ class AnuncioController extends Controller
 
         // Verifica se o usuário autenticado é um Locador
         if ($user->tipousu !== 'Locador') {
-            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para criar anúncios.');
+            return redirect()->route('anuncio.index')->with('error', 'Você não tem permissão para criar anúncios.');
         }
 
         // Carrega as categorias disponíveis
@@ -92,10 +92,10 @@ class AnuncioController extends Controller
         */
 
         if (!$anuncio) {
-            return redirect()->route('dashboard')->with('error', 'Erro ao criar anúncio');
+            return redirect()->route('anuncio.index')->with('error', 'Erro ao criar anúncio');
         }
 
-        return redirect()->route('dashboard')->with('success', 'Anúncio criado com sucesso.');
+        return redirect()->route('anuncio.index')->with('success', 'Anúncio criado com sucesso.');
     }
 
     /**

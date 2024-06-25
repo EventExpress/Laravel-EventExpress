@@ -7,7 +7,7 @@ use App\Models\Anuncio;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-    
+
 test('teste criar agendado', function(){
     $anuncio = Anuncio::factory()->create(); // Criar um anúncio fictício para o teste
 
@@ -21,7 +21,7 @@ test('teste criar agendado', function(){
             'anuncio_id' => $anuncio->id,
             'data_inicio' => '2024-05-10',
             'data_fim' => '2024-05-12',
-        ]);    
+        ]);
 });
 
 test('update agendado ',function (){
@@ -52,5 +52,5 @@ test('delete agendado', function (){
         'data_inicio' => '2024-05-15',
         'data_fim' => '2024-05-18',
     ]);
-    
+
 });

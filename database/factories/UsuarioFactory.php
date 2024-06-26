@@ -23,7 +23,7 @@ class UsuarioFactory extends Factory
             'nome_id' => $nome->id,
             'telefone' => $this->faker->numerify('(##)####-####'),
             'email' => $this->faker->email,
-            'password' => $this->faker->password(),
+            'password' => $this->faker->numerify('xxx12345'),
             'datanasc' => $this->faker->dateTimeBetween('-80 years', '-18 years')->format('Y-m-d'),
             'tipousu' => $this->faker->randomElement(['Cliente', 'Locador']),
             'cpf' => $this->faker->numerify('###.###.###-##'),

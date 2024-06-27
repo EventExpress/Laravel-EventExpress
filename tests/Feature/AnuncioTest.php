@@ -12,7 +12,7 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->usuario = Usuario::factory()->create(['tipousu' => 'Locador']);
     $this->actingAs($this->usuario);
-    $this->endereco = Endereco::factory()->create();
+    $this->endereco = Endereco::factory()->create(['cep' => '123456789']);
     $this->categoria = Categoria::factory()->count(3)->create();
 });
 
@@ -26,9 +26,17 @@ test('cria um anúncio', function () {
         'capacidade' => 100,
         'descricao' => 'Descrição do Anúncio',
         'valor' => 100.00,
-        'agenda' => 'Agenda do Anúncio',
+        'agenda' => now()->addDays(7)->toDateString(),
         'categoriaId' => $this->categoria->pluck('id')->toArray(),
     ]);
+
+    // Verificar o status da resposta
+    $response->assertStatus(302);
+
+    // Exibir erros se houver
+    if (session('errors')) {
+        dd(session('errors')->all());
+    }
 
     $response->assertRedirect('/anuncio');
 
@@ -38,8 +46,14 @@ test('cria um anúncio', function () {
         'capacidade' => 100,
         'descricao' => 'Descrição do Anúncio',
         'valor' => 100.00,
-        'agenda' => 'Agenda do Anúncio',
+        'agenda' => now()->addDays(7)->toDateString(),
         
+    ]);
+    $this->assertDatabaseHas('enderecos', [
+        'cidade' => $this->endereco->cidade,
+        'cep' => $this->endereco->cep,
+        'numero' => $this->endereco->numero,
+        'bairro' => $this->endereco->bairro,
     ]);
 });
 

@@ -38,7 +38,7 @@
                         @method("PUT")
 
                         <div class="mb-4">
-                            <label for="titulo" class="block text-sm font-medium text-gray-700">Título:</label>
+                            <label for="titulo" class="block text-sm font-medium text-orange-500">Título:</label>
                             <input type="text" name="titulo" id="titulo" value="{{ old('titulo', $anuncio->titulo) }}" class="form-input mt-1 block w-full rounded-lg" required>
                             @error('titulo')
                                 <div class="text-red-500 mt-1 text-sm">{{ $message }}</div>
@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="cidade" class="block text-sm font-medium text-gray-700">Cidade:</label>
+                            <label for="cidade" class="block text-sm font-medium text-orange-500">Cidade:</label>
                             <input type="text" name="cidade" id="cidade" value="{{ old('cidade', $anuncio->endereco->cidade) }}" class="form-input mt-1 block w-full rounded-lg" required>
                             @error('cidade')
                                 <div class="text-red-500 mt-1 text-sm">{{ $message }}</div>
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="cep" class="block text-sm font-medium text-gray-700">CEP:</label>
+                            <label for="cep" class="block text-sm font-medium text-orange-500">CEP:</label>
                             <input type="text" name="cep" id="cep" value="{{ old('cep', $anuncio->endereco->cep) }}" class="form-input mt-1 block w-full rounded-lg" required>
                             @error('cep')
                                 <div class="text-red-500 mt-1 text-sm">{{ $message }}</div>
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="numero" class="block text-sm font-medium text-gray-700">Número:</label>
+                            <label for="numero" class="block text-sm font-medium text-orange-500">Número:</label>
                             <input type="number" name="numero" id="numero" value="{{ old('numero', $anuncio->endereco->numero) }}" class="form-input mt-1 block w-full rounded-lg" required>
                             @error('numero')
                                 <div class="text-red-500 mt-1 text-sm">{{ $message }}</div>
@@ -70,15 +70,32 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="bairro" class="block text-sm font-medium text-gray-700">Bairro:</label>
+                            <label for="bairro" class="block text-sm font-medium text-orange-500">Bairro:</label>
                             <input type="text" name="bairro" id="bairro" value="{{ old('bairro', $anuncio->endereco->bairro) }}" class="form-input mt-1 block w-full rounded-lg" required>
                             @error('bairro')
                                 <div class="text-red-500 mt-1 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        <div class="mb-4 relative">
+                            <label for="categoriaId" class="block text-sm font-medium text-orange-500">Trocar categoria:</label>
+                            <div class="block w-full mt-1 rounded-lg border border-gray-500 bg-white">
+                                <button type="button" onclick="toggleCheckboxes()" class="w-full text-left px-4 py-2 bg-white rounded-lg focus:outline-none">
+                                    Selecionar Categorias
+                                </button>
+                            </div>
+                            <div id="checkboxContainer" class="hidden absolute mt-1 w-full rounded-lg border border-gray-300 bg-white z-10 max-h-60 overflow-y-auto">
+                                @foreach($categoria as $categoria)
+                            <div class="flex items-center px-4 py-2 hover:bg-gray-100">
+                                <input type="checkbox" name="categoriaId[]" id="categoria-{{ $categoria->id }}" value="{{ $categoria->id }}" class="form-checkbox h-4 w-4 text-orange-600" @if(in_array($categoria->id, $categoriaSelecionada)) checked @endif>
+                                <label for="categoria-{{ $categoria->id }}" class="ml-2 block text-sm text-gray-900">
+                                {{ $categoria->titulo }} - Descrição: {{ $categoria->descricao }}
+                            </label>
+                            </div>
+                            @endforeach
+                            </div>
+                        </div>
                         <div class="mb-4">
-                            <label for="capacidade" class="block text-sm font-medium text-gray-700">Capacidade:</label>
+                            <label for="capacidade" class="block text-sm font-medium text-orange-500">Capacidade:</label>
                             <input type="number" name="capacidade" id="capacidade" value="{{ old('capacidade', $anuncio->capacidade) }}" class="form-input mt-1 block w-full rounded-lg" required>
                             @error('capacidade')
                                 <div class="text-red-500 mt-1 text-sm">{{ $message }}</div>
@@ -86,21 +103,14 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="descricao" class="block text-sm font-medium text-gray-700">Descrição:</label>
+                            <label for="descricao" class="block text-sm font-medium text-orange-500">Descrição:</label>
                             <input type="text" name="descricao" id="descricao" value="{{ old('descricao', $anuncio->descricao) }}" class="form-input mt-1 block w-full rounded-lg" required>
                             @error('descricao')
                                 <div class="text-red-500 mt-1 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-4">
-                            <label for="categoriaId" class="block text-sm font-medium text-gray-700">Trocar categoria:</label>
-                            <select name="categoriaId[]" id="categoriaId" class="form-multiselect block w-full mt-1 rounded-lg" multiple>
-                                @foreach($categoria as $categoria)
-                                    <option value="{{ $categoria->id }}" @if(in_array($categoria->id, $categoriaSelecionada)) selected @endif>{{ $categoria->titulo }} - Descrição: {{ $categoria->descricao }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+
 
                         <div>
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
@@ -113,3 +123,22 @@
         </div>
     </div>
 </x-app-layout>
+<script>
+    function toggleCheckboxes() {
+        var container = document.getElementById('checkboxContainer');
+        if (container.classList.contains('hidden')) {
+            container.classList.remove('hidden');
+        } else {
+            container.classList.add('hidden');
+        }
+    }
+
+    // Hide the dropdown if user clicks outside of it
+    document.addEventListener('click', function(event) {
+        var container = document.getElementById('checkboxContainer');
+        var button = container.previousElementSibling.querySelector('button');
+        if (!container.contains(event.target) && !button.contains(event.target)) {
+            container.classList.add('hidden');
+        }
+    });
+</script>

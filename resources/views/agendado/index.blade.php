@@ -25,7 +25,7 @@
                         </div>
                     @endif
 
-                    <h1 class="text-2xl font-semibold mb-4 text-orange-500">Reservas</h1>
+                    <h1 class="text-2xl font-semibold mb-4 text-orange-500">Busca de Reservas</h1>
 
                     <form action="{{ url('agendado/show') }}" method="GET" class="mb-4 flex">
                         <input type="text" name="search" placeholder="Procurar reserva" class="border rounded-l-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
@@ -41,7 +41,7 @@
                                     <h2 class="text-lg font-semibold">{{ $agendados->anuncio->titulo }}</h2>
                                     <p>{{ $agendados->anuncio->descricao }}</p>
                                 </div>
-                                <div class="md:text-right">
+                                <div class="mb-4 p-4 border rounded-md bg-white dark:bg-gray-700">
                                     <p><span class="font-semibold">Anunciante:</span> {{ $agendados->anuncio->usuario->nome->nome }}</p>
                                     <p><span class="font-semibold">Data de Início:</span> {{ $agendados->data_inicio }}</p>
                                     <p><span class="font-semibold">Data do Fim:</span> {{ $agendados->data_fim }}</p>

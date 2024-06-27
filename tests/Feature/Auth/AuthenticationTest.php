@@ -9,7 +9,9 @@ test('login screen can be rendered', function () {
 });
 
 test('users can authenticate using the login screen', function () {
-    $user = Usuario::factory()->create();
+    $user = Usuario::factory()->create([
+        'password' => Hash::make('password')
+    ]);
 
     $response = $this->post('/login', [
         'email' => $user->email,

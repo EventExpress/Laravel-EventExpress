@@ -4,8 +4,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\postJson;
 use App\Models\Agendado;
 use App\Models\Anuncio;
+use App\Models\Usuario;
 
 uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $usuario = Usuario::factory()->create(['tipousu' => 'Cliente']);
+    $this->actingAs($usuario);
+});
 
 test('acessa o formulário de criação de agendado', function () {
     $anuncio = Anuncio::factory()->create();
@@ -23,13 +29,13 @@ test('verifica direcionamento da index/', function () {
 });
 
 test('verifica se o search está direcionando', function () {
-    $agendado = Agendado::factory()->create();
+    $agendado = Agendado::factory()->create(['usuario_id' => Auth::id()]);
     $response = $this->get("/agendado/{$agendado->id}");
     $response->assertStatus(200);
 });
 
 test('Rota delete redireciona corretamente após a exclusão', function () {
-    $agendado = Agendado::factory()->create();
+    $agendado = Agendado::factory()->create(['usuario_id' => Auth::id()]);
 
     $response = $this->delete("/agendado/{$agendado->id}", ['_token' => csrf_token()]);
 
@@ -45,20 +51,18 @@ test('create agendado', function () {
         'anuncio_id' => $anuncio->id,
         'data_inicio' => '2024-05-10',
         'data_fim' => '2024-05-12',
+        'usuario_id' => Auth::id(),
     ];
 
-    $url = route('agendado.store');
+    $response = $this->post(route('agendado.store'), $agendadoData);
 
-    $response = $this->post($url, $agendadoData);
-
-    $response->assertRedirect('/anuncio');
-
-    $agendamentoCriado = Agendado::where('anuncio_id', $anuncio->id)
-        ->where('data_inicio', '2024-05-10 00:00:00')//zeros devido a como está sendo inserido no banco com o carbon.
-        ->where('data_fim', '2024-05-12 00:00:00')
-        ->first();
-
-    $this->assertNotNull($agendamentoCriado);
+    $response->assertRedirect('/agendado');
+    $this->assertDatabaseHas('agendados', [
+        'anuncio_id' => $anuncio->id,
+        'data_inicio' => '2024-05-10 00:00:00',
+        'data_fim' => '2024-05-12 00:00:00',
+        'usuario_id' => Auth::id(),
+    ]);
 });
 
 
@@ -67,11 +71,18 @@ test ( 'update agendado ',function (){
     $agendado = Agendado::factory()->create([
         'data_inicio' => '2024-05-15',
         'data_fim' => '2024-05-18',
+        'usuario_id' => Auth::id(),
     ]);
-    $agendado->update([
+
+    $updateData = [
         'data_inicio' => '2024-06-16',
         'data_fim' => '2024-07-17',
-    ]);
+        'usuario_id' => Auth::id(),
+    ];
+
+    $response = $this->put(route('agendado.update', $agendado->id), $updateData);
+
+    $response->assertRedirect('/agendado');
     $agendado->refresh();
 
     expect($agendado->data_inicio)->toBe('2024-06-16');
@@ -79,7 +90,7 @@ test ( 'update agendado ',function (){
 });
 
 test ( 'delete agendado', function(){
-        $agendado = Agendado::factory()->create();
+        $agendado = Agendado::factory()->create(['usuario_id' => Auth::id()]);
         $agendado->delete();
 
         expect(agendado::find($agendado->id))->toBeNull();

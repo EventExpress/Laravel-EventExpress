@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Usuario;
+use App\Models\Nome;
+use App\Models\Endereco;
 
 test('profile page is displayed', function () {
     $user = Usuario::factory()->create();
@@ -18,8 +20,16 @@ test('profile information can be updated', function () {
     $response = $this
         ->actingAs($user)
         ->patch('/profile', [
-            'name' => 'Test User',
+            'nome' => 'Test User',
             'email' => 'test@example.com',
+            'telefone' => '1234567890',
+            'datanasc' => '1990-01-01',
+            'tipousu' => 'tipo_teste',
+            'cpf' => '12345678901',
+            'cidade' => 'Test City',
+            'cep' => '12345-678',
+            'numero' => '123',
+            'bairro' => 'Test Neighborhood',
         ]);
 
     $response
@@ -28,19 +38,37 @@ test('profile information can be updated', function () {
 
     $user->refresh();
 
-    $this->assertSame('Test User', $user->name);
+    $this->assertSame('Test User', $user->nome()->first()->nome);
     $this->assertSame('test@example.com', $user->email);
     $this->assertNull($user->email_verified_at);
+    $this->assertSame('1234567890', $user->telefone);
+    $this->assertSame('1990-01-01', $user->datanasc);
+    $this->assertSame('tipo_teste', $user->tipousu);
+    $this->assertSame('12345678901', $user->cpf);
+    $this->assertSame('Test City', $user->endereco()->first()->cidade);
+    $this->assertSame('12345-678', $user->endereco()->first()->cep);
+    $this->assertSame('123', $user->endereco()->first()->numero);
+    $this->assertSame('Test Neighborhood', $user->endereco()->first()->bairro);
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {
-    $user = Usuario::factory()->create();
+    $user = Usuario::factory()->create([
+        'email_verified_at' => now(),
+    ]);
 
     $response = $this
         ->actingAs($user)
         ->patch('/profile', [
-            'name' => 'Test User',
+            'nome' => 'Test User',
             'email' => $user->email,
+            'telefone' => '1234567890',
+            'datanasc' => '1990-01-01',
+            'tipousu' => 'tipo_teste',
+            'cpf' => '12345678901',
+            'cidade' => 'Test City',
+            'cep' => '12345-678',
+            'numero' => '123',
+            'bairro' => 'Test Neighborhood',
         ]);
 
     $response
@@ -51,7 +79,10 @@ test('email verification status is unchanged when the email address is unchanged
 });
 
 test('user can delete their account', function () {
-    $user = Usuario::factory()->create();
+    $user = Usuario::factory()->create([
+        'password' => Hash::make('password')
+    ]);
+        
 
     $response = $this
         ->actingAs($user)

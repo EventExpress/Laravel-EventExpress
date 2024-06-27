@@ -27,8 +27,6 @@
 
                     <h1 class="text-2xl font-semibold mb-4 text-orange-500">Anúncios</h1>
 
-
-                    
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @forelse($anuncio as $anuncio)
                             <div class="bg-white dark:bg-gray-200 rounded-lg shadow-md p-4">
@@ -38,20 +36,21 @@
                                 <p class="text-gray-700 dark:text-gray-300">{{ $anuncio->descricao }}</p>
                                 <p class="text-gray-700 dark:text-gray-300">Locador: {{ $anuncio->usuario->nome->nome }}</p>
                                 <p class="text-gray-700 dark:text-gray-300">Valor: {{ $anuncio->valor }}</p>
-                                
+
                                 <div class="mt-4">
                                     @foreach($anuncio->categoria as $categoria)
                                         <span class="bg-gray-200 text-gray-700 dark:text-gray-300 px-2 py-1 text-xs rounded">{{ $categoria->titulo }}</span>
                                     @endforeach
                                 </div>
-                                
+
                                 <div class="mt-4">
-                                        <a href="{{ route('agendado.create', ['anuncioId' => $anuncio->id]) }}" class="inline-block bg-blue-500 text-white px-3 py-1 rounded-md text-sm text-blue-500 hover:text-blue-700">Reservar</a>
+
+                                        <a href="{{ route('anuncio.index') }}" class="inline-block bg-blue-500 text-white px-3 py-1 rounded-md text-sm text-blue-500 hover:text-blue-700">Reservar</a>
 
                                 </div>
                             </div>
                         @empty
-                            <p class="text-gray-700 dark:text-gray-300">Não possui nenhum anúncio.</p>
+                            <p class="text-gray-700 dark:text-gray-300">Você não possui nenhum anúncio.</p>
                         @endforelse
                     </div>
                 </div>

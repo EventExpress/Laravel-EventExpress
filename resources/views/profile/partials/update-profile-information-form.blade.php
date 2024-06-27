@@ -33,14 +33,14 @@
 
         <div>
             <x-input-label for="datanasc" :value="__('Data de Nascimento')" class="text-orange-400" />
-            <input id="datanasc" name="datanasc" type="date" class="mt-1 block w-full form-input rounded-md shadow-sm" value="{{ old('datanasc', $user->datanasc) }}" required />
+            <input id="datanasc" name="datanasc" type="date" class="mt-1 block w-full form-input rounded-md shadow-sm border-gray-300" value="{{ old('datanasc', $user->datanasc) }}" required />
             <x-input-error class="mt-2" :messages="$errors->get('datanasc')" />
         </div>
 
 
         <div>
-            <x-input-label for="tipousu" :value="__('Tipo de Usuário')" class="text-orange-400" />
-            <select id="tipousu" name="tipousu" required onchange="OcultarCnpj(this.value)" class="mt-1 block w-full form-input rounded-md shadow-sm">
+            <x-input-label for="tipousu" :value="__('Tipo de Usuário')" class="text-orange-400 " />
+            <select id="tipousu" name="tipousu" required onchange="OcultarCnpj(this.value)" class="mt-1 block w-full form-input rounded-md shadow-sm border-gray-300">
                 <option value="Cliente" {{ old('tipousu', $user->tipousu) == 'Cliente' ? 'selected' : '' }}>Cliente</option>
                 <option value="Locador" {{ old('tipousu', $user->tipousu) == 'Locador' ? 'selected' : '' }}>Locador</option>
             </select>

@@ -72,6 +72,24 @@
                                 <div class="text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="mt-4 relative">
+                            <label for="categoriaId" class="text-orange-500">Escolher categoria</label>
+                            <div class="block mt-1 w-full rounded-md border border-gray-300 bg-white">
+                            <button type="button" onclick="toggleCheckboxes()" class="w-full text-left px-4 py-2 bg-white rounded-md focus:outline-none">
+                                Selecionar Categorias
+                            </button>
+                            </div>
+                        <div id="checkboxContainer" class="hidden absolute mt-1 w-full rounded-md border border-gray-300 bg-white z-10 max-h-60 overflow-y-auto">
+                        @foreach($categoria as $categorias)
+                        <div class="flex items-center px-4 py-2 hover:bg-gray-100">
+                            <input type="checkbox" name="categoriaId[]" id="categoria-{{ $categorias->id }}" value="{{ $categorias->id }}" class="form-checkbox h-4 w-4 text-orange-600" {{ in_array($categorias->id, old('categoriaId', [])) ? 'checked' : '' }}>
+                            <label for="categoria-{{ $categorias->id }}" class="ml-2 block text-sm text-gray-900">
+                                {{ $categorias->titulo }} - Descrição: {{ $categorias->descricao }}
+                            </label>
+                            </div>
+                            @endforeach
+                            </div>
+                        </div>
                         <div class="mt-4">
                             <label for="valor" class="text-orange-500">Valor:</label>
                             <input type="number" name="valor" id="valor" value="{{ old('valor') }}" required class="block mt-1 w-full rounded-md border-gray-300">
@@ -79,6 +97,7 @@
                                 <div class="text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div class="mt-4">
                             <label for="agenda" class="text-orange-500">Agenda:</label>
                             <input type="date" name="agenda" id="agenda" value="{{ old('agenda') }}" required class="block mt-1 w-full rounded-md border-gray-300">
@@ -86,16 +105,7 @@
                                 <div class="text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mt-4">
-                            <label for="categoriaId" class="text-orange-500">Escolher categoria</label>
-                            <select name="categoriaId[]" id="categoriaId" class="block mt-1 w-full rounded-md border-gray-300">
-                                @foreach($categoria as $categorias)
-                                    <option value="{{ $categorias->id }}" {{ in_array($categorias->id, old('categoriaId', [])) ? 'selected' : '' }}>
-                                        {{ $categorias->titulo }} - Descrição: {{ $categorias->descricao }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+
                         <div class="mt-4">
                             <input type="submit" value="Enviar" class="px-4 py-2 bg-blue-600 text-white rounded-md">
                         </div>
@@ -105,3 +115,23 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    function toggleCheckboxes() {
+        var container = document.getElementById('checkboxContainer');
+        if (container.classList.contains('hidden')) {
+            container.classList.remove('hidden');
+        } else {
+            container.classList.add('hidden');
+        }
+    }
+
+    // Hide the dropdown if user clicks outside of it
+    document.addEventListener('click', function(event) {
+        var container = document.getElementById('checkboxContainer');
+        var button = container.previousElementSibling.querySelector('button');
+        if (!container.contains(event.target) && !button.contains(event.target)) {
+            container.classList.add('hidden');
+        }
+    });
+</script>

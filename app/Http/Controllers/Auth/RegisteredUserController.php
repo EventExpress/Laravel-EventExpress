@@ -72,7 +72,7 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return redirect(route('dashboard'));
+        return redirect(route('anuncio.index'));
     }
 
 }

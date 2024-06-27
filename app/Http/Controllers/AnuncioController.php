@@ -210,7 +210,7 @@ class AnuncioController extends Controller
 
         $anuncio->delete();
         $anuncio->endereco()->delete();
-        return redirect('/anuncio');
+        return redirect('/meusanuncios');
     }
 
 }

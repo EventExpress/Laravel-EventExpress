@@ -35,14 +35,18 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="adicionalId" class="block text-sm font-medium text-orange-500">Escolher adicionais:</label>
-                            <select name="adicionalId[]" id="adicionalId" class="form-multiselect mt-1 block w-full rounded-lg">
-                                <option value="">Selecionar</option>
-                                @foreach($adicional as $adicionais)
-                                    <option value="{{ $adicionais->id }}">{{ $adicionais->titulo }} - R$ {{ $adicionais->valor }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                            <label class="block text-sm font-medium text-orange-500">Escolher adicionais:</label>
+                     @foreach($adicional as $adicionais)
+        <div class="flex items-center mt-2">
+            <input type="checkbox" name="adicionalId[]" id="adicional-{{ $adicionais->id }}" value="{{ $adicionais->id }}" class="form-checkbox h-4 w-4 text-orange-600">
+            <label for="adicional-{{ $adicionais->id }}" class="ml-2 block text-sm text-gray-900">
+                {{ $adicionais->titulo }} - R$ {{ $adicionais->valor }}
+            </label>
+        </div>
+    @endforeach
+</div>
+
+
 
                         <input type="hidden" name="anuncio_id" value="{{ $anuncio->id }}">
                         <input type="hidden" name="usuario_id" value="{{ Auth::id() }}">

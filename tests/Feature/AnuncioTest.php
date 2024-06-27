@@ -47,7 +47,7 @@ test('cria um anúncio', function () {
         'descricao' => 'Descrição do Anúncio',
         'valor' => 100.00,
         'agenda' => now()->addDays(7)->toDateString(),
-        
+
     ]);
     $this->assertDatabaseHas('enderecos', [
         'cidade' => $this->endereco->cidade,
@@ -97,7 +97,7 @@ test('deleta um anúncio', function () {
 
     $response = $this->delete("/anuncio/{$anuncio->id}");
 
-    $response->assertRedirect('/anuncio');
+    $response->assertRedirect('/meusanuncios');
 
     $this->assertDatabaseMissing('anuncios', [
         'id' => $anuncio->id,
